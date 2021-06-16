@@ -1,4 +1,5 @@
 package com.daniejl.a7024;
+
 import java.util.Date;
 
 public class Week {
@@ -8,9 +9,10 @@ public class Week {
     private String[] actualTimes = new String[7];
     private double[] percentages = new double[7];
 
-    Week(Date start){
-        this.ID = MainActivity.LAST_ID +1;
-        MainActivity.LAST_ID = this.ID;
+
+    Week(Date start) {
+        this.ID = global.LAST_ID + 1;
+        global.LAST_ID = this.ID;
 
         this.startDate = start;
         long time1 = startDate.getTime();
@@ -18,42 +20,42 @@ public class Week {
         this.endDate = new Date(time2);
     }
 
-    Week(int id, String start, String end, String ats, String pers){
+    Week(int id, String start, String end, String ats, String pers) {
         this.ID = id;
         this.startDate = new Date(Long.parseLong(start));
         this.endDate = new Date(Long.parseLong(end));
 
-        ats = ats.substring(1, ats.length()-1);
-        pers = pers.substring(1,pers.length()-1);
-        ats = ats.replaceAll("\\s","");
-        pers = pers.replaceAll("\\s","");
-        String[] atsArr = ats.split(",",-1);
-        String[] persArr = pers.split(",",-1);
+        ats = ats.substring(1, ats.length() - 1);
+        pers = pers.substring(1, pers.length() - 1);
+        ats = ats.replaceAll("\\s", "");
+        pers = pers.replaceAll("\\s", "");
+        String[] atsArr = ats.split(",", -1);
+        String[] persArr = pers.split(",", -1);
 
-        for(int i = 0; i<7;i++){
+        for (int i = 0; i < 7; i++) {
             this.actualTimes[i] = atsArr[i];
-            if(atsArr[i].contains("null")){
+            if (atsArr[i].contains("null")) {
                 this.actualTimes[i] = null;
             }
         }
-        for(int i = 0; i<7;i++){
+        for (int i = 0; i < 7; i++) {
             this.percentages[i] = Double.parseDouble(persArr[i]);
         }
     }
 
-    public double getWeekIncentive(){
-        double extraPercent = getWeekPerformance() - 100;
+    public double getWeekIncentive() {
+        double extraPercent = getWeekPerformance() - global.INCENTIVE_MIN;
         double incentivePay = 0;
         double totalHrs = 0;
-        if(extraPercent>0){
-            if(extraPercent>30) {
-                extraPercent = 30;
+        if (extraPercent > 0) {
+            if (extraPercent > global.INCENTIVE_MAX - global.INCENTIVE_MIN) {
+                extraPercent = global.INCENTIVE_MAX - global.INCENTIVE_MIN;
             }
-            extraPercent = extraPercent/100;
-            incentivePay = extraPercent * MainActivity.BASE_PAY;
-            for(int i = 0; i<7; i++){
-                if(this.actualTimes[i]!=null) {
-                    totalHrs += getTimeDecimal(actualTimes[i]);
+            extraPercent = extraPercent / 100;
+            incentivePay = extraPercent * global.BASE_PAY;
+            for (int i = 0; i < 7; i++) {
+                if (this.actualTimes[i] != null && this.percentages[i] > 0) {
+                    totalHrs += getTimeAsDecimal(actualTimes[i]);
                 }
             }
             incentivePay = incentivePay * totalHrs;
@@ -61,43 +63,56 @@ public class Week {
         return incentivePay;
     }
 
-    public double getWeekPerformance(){
+    public double getWeekPerformance() {
         double totalHrs = 0;
         double weight = 0;
-        for(int i = 0; i<7; i++){
-            if(this.actualTimes[i]!=null && this.percentages[i]!=0) {
-                totalHrs += getTimeDecimal(actualTimes[i]);
-                weight += getTimeDecimal(actualTimes[i]) * percentages[i];
+        for (int i = 0; i < 7; i++) {
+            if (this.actualTimes[i] != null && this.percentages[i] > 0) {
+                totalHrs += getTimeAsDecimal(actualTimes[i]);
+                weight += getTimeAsDecimal(actualTimes[i]) * percentages[i];
             }
         }
-        return weight/totalHrs;
-    }
-
-    public Double getWeekStandards(){
-        double totalAT = 0;
-        double performace = getWeekPerformance()/100;
-        for(int i = 0; i<7; i++){
-            if(this.actualTimes[i]!=null) {
-                totalAT += getTimeDecimal(actualTimes[i]);
-            }
+        double average = weight / totalHrs;
+        if (average > 0) {
+            return average;
         }
-        return totalAT * performace;
+        return 0;
     }
 
-    private double getTimeDecimal(String s){
+
+    //creates a double from a time string, "10:30" = 10.5, "9:45" = 9.75, etc.
+    public static double getTimeAsDecimal(String s) {
         double hours = 0;
-        if(s.matches("([0-9]+:[0-9]+|[0-9]+)")) {
-            if(s.contains(":")) {
+        if (s.matches("([0-9]+:[0-9]+|[0-9]+)")) {
+            if (s.contains(":")) {
                 hours = Double.parseDouble(s.substring(0, s.lastIndexOf(":")));
                 double minutes = Double.parseDouble(s.substring(s.lastIndexOf(":") + 1));
-                hours += minutes / 60;
-            }
-            else{
+                hours += (minutes / 60);
+            } else {
                 hours = Double.parseDouble(s);
             }
+        } else {
+            System.out.println(s + ": NON REGEX MATCH");
         }
-        else{System.out.println(s + ": NON REGEX MATCH");}
         return hours;
+    }
+
+    //creates a time string from double, 10.5 = "10:30" , 9.75 = "9:45", etc.
+    public static String getDecimalAsTime(double d) {
+        String time = Double.toString(d);
+        String hrsString = time.substring(0,time.indexOf("."));
+        String minsString = time.substring(time.indexOf("."));
+
+        int hrs = Integer.parseInt(hrsString);
+        double mins = Double.parseDouble(minsString) * 60;
+
+        hrsString = String.valueOf(hrs);
+        minsString = String.valueOf(mins);
+        minsString = minsString.substring(0, minsString.lastIndexOf("."));
+        if(minsString.length()<2){
+            minsString = "0" + minsString;
+        }
+        return (hrsString + ":" + minsString);
     }
 
     public void setPercentages(double[] percentages) {
@@ -112,7 +127,7 @@ public class Week {
         return endDate;
     }
 
-    public Date getStartDate(){
+    public Date getStartDate() {
         return startDate;
     }
 

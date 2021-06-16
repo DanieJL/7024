@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:launchMode="singleInstance"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,14 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/backToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
 
         <ScrollView
             android:id="@+id/scrollView3"
@@ -30,19 +23,11 @@
             android:layout_marginBottom="8dp">
 
             <LinearLayout
+                android:id="@+id/entry"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="fill_vertical"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/daterange"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#6A6666"
-                    android:gravity="center"
-                    android:text="TextView"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -81,7 +66,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col1"
@@ -92,11 +77,12 @@
 
                     <TextView
                         android:id="@+id/date1"
+                        android:tag="d1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -108,6 +94,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per1"
+                        android:tag="at1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -119,13 +106,14 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per1"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col2"
@@ -136,11 +124,12 @@
 
                     <TextView
                         android:id="@+id/date2"
+                        android:tag="d2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -152,6 +141,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per2"
+                        android:tag="at2"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -163,12 +153,13 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per2"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col3"
@@ -179,11 +170,12 @@
 
                     <TextView
                         android:id="@+id/date3"
+                        android:tag="d3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -195,6 +187,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per3"
+                        android:tag="at3"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -206,12 +199,13 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per3"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col4"
@@ -222,11 +216,13 @@
 
                     <TextView
                         android:id="@+id/date4"
+                        android:tag="d4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
+                        
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -238,6 +234,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per4"
+                        android:tag="at4"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -249,13 +246,14 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per4"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col5"
@@ -266,11 +264,12 @@
 
                     <TextView
                         android:id="@+id/date5"
+                        android:tag="d5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -282,6 +281,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per5"
+                        android:tag="at5"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -293,13 +293,14 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per5"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col6"
@@ -310,11 +311,12 @@
 
                     <TextView
                         android:id="@+id/date6"
+                        android:tag="d6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -326,6 +328,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per6"
+                        android:tag="at6"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -337,13 +340,14 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per6"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:id="@+id/col7"
@@ -354,11 +358,12 @@
 
                     <TextView
                         android:id="@+id/date7"
+                        android:tag="d7"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center_vertical"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -370,6 +375,7 @@
                         android:gravity="center"
                         android:inputType="time"
                         android:nextFocusDown="@+id/per7"
+                        android:tag="at7"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <EditText
@@ -381,12 +387,13 @@
                         android:gravity="center"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
+                        android:tag="per7"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15dp" />
+                    android:layout_height="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -399,7 +406,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <Space
@@ -409,33 +416,20 @@
                     <TextView
                         android:id="@+id/incentive"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
 
-                    <TextView
-                        android:id="@+id/standard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="TextView"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-                    <Space
-                        android:id="@+id/space"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp" />
-
 
                     <Button
                         android:id="@+id/calculate"
-                        android:layout_width="246dp"
-                        android:layout_height="68dp"
+                        android:layout_width="240dp"
+                        android:layout_height="60dp"
                         android:gravity="center"
                         android:text="CALCULATE"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
