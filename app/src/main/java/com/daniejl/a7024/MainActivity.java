@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        global.SAVE_FILE = getSharedPreferences("7024data", Context.MODE_PRIVATE);
-        global.loadAllData();
+        DataHandler.SAVE_FILE = getSharedPreferences("7024data", Context.MODE_PRIVATE);
+        DataHandler.loadAllData();
         setDateListener();
     }
 
@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        global.WEEKLIST.sort(Comparator.comparing(Week::getStartDate).thenComparing(Week::getID).reversed());
+        DataHandler.WEEKLIST.sort(Comparator.comparing(Week::getStartDate).thenComparing(Week::getID).reversed());
 
-        for (Week w : global.WEEKLIST) {
-            String title = global.simpleDateFormat.format(w.getStartDate()) + "-" + global.simpleDateFormat2.format(w.getEndDate());
+        for (Week w : DataHandler.WEEKLIST) {
+            String title = DataHandler.simpleDateFormat.format(w.getStartDate()) + "-" + DataHandler.simpleDateFormat2.format(w.getEndDate());
             if (w.getWeekPerformance() > 0) {
-                title += " [" + global.df.format(w.getWeekPerformance()) + "%]";
+                title += " [" + DataHandler.df.format(w.getWeekPerformance()) + "%]";
             } else {
                 title += " (empty)";
             }
@@ -61,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
             ll.addView(myButton, lp);
 
             myButton.setOnClickListener(v -> {
-                myButton.performHapticFeedback(6);
-                global.ACTIVE_ID = w.getID();
+                myButton.performHapticFeedback(16);
+                DataHandler.ACTIVE_ID = w.getID();
                 startActivity(new Intent(MainActivity.this, WeekActivity.class));
             });
 
             myButton.setOnLongClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth));
                 builder.setCancelable(true);
-                builder.setMessage("Delete the week of " + global.simpleDateFormat.format(w.getStartDate()) + "-" + global.simpleDateFormat.format(w.getEndDate()) + "?");
+                builder.setMessage("Delete the week of " + DataHandler.simpleDateFormat.format(w.getStartDate()) + "-" + DataHandler.simpleDateFormat.format(w.getEndDate()) + "?");
                 builder.setPositiveButton("Confirm", (dialog, which) -> {
-                    global.WEEKLIST.remove(w);
-                    global.saveAllData();
+                    DataHandler.WEEKLIST.remove(w);
+                    DataHandler.saveAllData();
                     createMainButtons();
                 });
                 builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(
                 MainActivity.this,
                 android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
-                global.mDateSetListener,
+                DataHandler.mDateSetListener,
                 year, month, day);
         dialog.setMessage("First day of new week:");
         dialog.show();
@@ -107,20 +107,20 @@ public class MainActivity extends AppCompatActivity {
 
     //create new week using selected date
     private void setDateListener() {
-        global.mDateSetListener = (datePicker, year, month, day) -> {
+        DataHandler.mDateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
             String strDate = month + "/" + day + "/" + year;
             Date date = null;
             try {
-                date = global.simpleDateFormat2.parse(strDate);
+                date = DataHandler.simpleDateFormat2.parse(strDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             if (date != null) {
                 Week newWeek = new Week(date);
-                global.WEEKLIST.add(newWeek);
-                global.ACTIVE_ID = newWeek.getID();
-                global.saveAllData();
+                DataHandler.WEEKLIST.add(newWeek);
+                DataHandler.ACTIVE_ID = newWeek.getID();
+                DataHandler.saveAllData();
                 startActivity(new Intent(MainActivity.this, WeekActivity.class));
             }
         };

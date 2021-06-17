@@ -11,8 +11,8 @@ public class Week {
 
 
     Week(Date start) {
-        this.ID = global.LAST_ID + 1;
-        global.LAST_ID = this.ID;
+        this.ID = DataHandler.LAST_ID + 1;
+        DataHandler.LAST_ID = this.ID;
 
         this.startDate = start;
         long time1 = startDate.getTime();
@@ -44,15 +44,15 @@ public class Week {
     }
 
     public double getWeekIncentive() {
-        double extraPercent = getWeekPerformance() - global.INCENTIVE_MIN;
+        double extraPercent = getWeekPerformance() - DataHandler.INCENTIVE_MIN;
         double incentivePay = 0;
         double totalHrs = 0;
         if (extraPercent > 0) {
-            if (extraPercent > (global.INCENTIVE_MAX - global.INCENTIVE_MIN)) {
-                extraPercent = global.INCENTIVE_MAX - global.INCENTIVE_MIN;
+            if (extraPercent > (DataHandler.INCENTIVE_MAX - DataHandler.INCENTIVE_MIN)) {
+                extraPercent = DataHandler.INCENTIVE_MAX - DataHandler.INCENTIVE_MIN;
             }
             extraPercent = extraPercent / 100;
-            incentivePay = extraPercent * global.BASE_PAY;
+            incentivePay = extraPercent * DataHandler.BASE_PAY;
             for (int i = 0; i < 7; i++) {
                 if (isValidInput(this.actualTimes[i], this.percentages[i])) {
                     totalHrs += getTimeAsDecimal(this.actualTimes[i]);

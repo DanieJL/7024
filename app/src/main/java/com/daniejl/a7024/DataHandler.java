@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class global extends MainActivity {
+public class DataHandler extends MainActivity {
     public static int LAST_ID = 0;       //increment IDs for created weeks
     public static int ACTIVE_ID;         //the ID of the week currently opened
     public static double BASE_PAY = 20;     //the user's base pay
@@ -32,7 +32,7 @@ public class global extends MainActivity {
 
     public static void saveAllData() {
         JSONArray weeksJSON = new JSONArray();
-        for (Week W : global.WEEKLIST) {
+        for (Week W : DataHandler.WEEKLIST) {
             JSONObject data = new JSONObject();
             try {
                 data.put("ID", W.getID());
@@ -47,15 +47,15 @@ public class global extends MainActivity {
         }
         SharedPreferences.Editor editor = SAVE_FILE.edit();
         editor.putString("JSON", weeksJSON.toString());
-        editor.putInt("lastID", global.LAST_ID);
+        editor.putInt("lastID", DataHandler.LAST_ID);
         editor.apply();
     }
 
     public static void loadAllData() {
-        global.WEEKLIST.clear();
+        DataHandler.WEEKLIST.clear();
         SharedPreferences prefs = SAVE_FILE;
         String JSONString = prefs.getString("JSON", "");
-        global.LAST_ID = prefs.getInt("lastID", 0);
+        DataHandler.LAST_ID = prefs.getInt("lastID", 0);
 
         try {
             JSONArray temp = new JSONArray(JSONString);
@@ -68,7 +68,7 @@ public class global extends MainActivity {
                 String actualTimes = week.getString("actualTimes");
                 String percentages = week.getString("percentages");
 
-                global.WEEKLIST.add(new Week(id, startDate, endDate, actualTimes, percentages));
+                DataHandler.WEEKLIST.add(new Week(id, startDate, endDate, actualTimes, percentages));
             }
         } catch (JSONException e) {
             e.printStackTrace();

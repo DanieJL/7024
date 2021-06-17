@@ -58,7 +58,7 @@ public class WeekActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        populateWeekPage(global.ACTIVE_ID);
+        populateWeekPage(DataHandler.ACTIVE_ID);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);
@@ -66,7 +66,7 @@ public class WeekActivity extends AppCompatActivity {
 
         Button btn = findViewById(R.id.calculate);
         btn.setOnClickListener(v -> {
-            calculate(global.ACTIVE_ID);
+            calculate(DataHandler.ACTIVE_ID);
             btn.performHapticFeedback(16);
         });
         super.onResume();
@@ -74,7 +74,7 @@ public class WeekActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        saveWeekPage(global.ACTIVE_ID);
+        saveWeekPage(DataHandler.ACTIVE_ID);
         super.onPause();
     }
 
@@ -88,22 +88,23 @@ public class WeekActivity extends AppCompatActivity {
     }
 
     private void calculate(int ID) {
-        saveWeekPage(global.ACTIVE_ID);
+        saveWeekPage(DataHandler.ACTIVE_ID);
         colorForBadInput();
         TextView incentive = findViewById(R.id.incentive);
         TextView average = findViewById(R.id.average);
-        for (Week w : global.WEEKLIST) {
+        for (Week w : DataHandler.WEEKLIST) {
             if (ID == w.getID()) {
-                String avg = "Average: " + global.df.format(w.getWeekPerformance()) + "%";
+                String avg = "Average: " + DataHandler.df.format(w.getWeekPerformance()) + "%";
                 average.setText(avg);
-                String inc = "Incentive: $" + global.df.format(w.getWeekIncentive());
+                String inc = "Incentive: $" + DataHandler.df.format(w.getWeekIncentive());
                 incentive.setText(inc);
                 break;
             }
         }
     }
 
-    private void showDayStandard(int day, String dayText) { //this needs to pull from textboxes, not from the object!
+    //show snackbar to display standard time for specific day
+    private void showDayStandard(int day, String dayText) {
         String atTemp = actualTimeEntries.get(day).getText().toString();
         String perTemp = percentEntries.get(day).getText().toString();
 
@@ -156,14 +157,14 @@ public class WeekActivity extends AppCompatActivity {
                 pers[i] = 0;
             }
         }
-        for (Week w : global.WEEKLIST) {
+        for (Week w : DataHandler.WEEKLIST) {
             if (ID == w.getID()) {
                 w.setActualTimes(ats);
                 w.setPercentages(pers);
                 break;
             }
         }
-        global.saveAllData();
+        DataHandler.saveAllData();
     }
 
     //build the week page from stored data for week being looked at
@@ -173,7 +174,7 @@ public class WeekActivity extends AppCompatActivity {
             e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number) - 1), e.getText().toString()));
         }
         Week w = new Week(new Date());
-        for (Week m : global.WEEKLIST) {
+        for (Week m : DataHandler.WEEKLIST) {
             if (m.getID() == ID) {
                 w = m;
                 break;
@@ -193,10 +194,10 @@ public class WeekActivity extends AppCompatActivity {
                 String perString = Double.toString(pers[i]);
                 perEntry.setText(perString);
             }
-            String dateTitle = "  " + global.simpleDateFormat3.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
+            String dateTitle = "  " + DataHandler.simpleDateFormat3.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
             dateBox.setText(dateTitle);
         }
-        String dateR = global.simpleDateFormat2.format(w.getStartDate()) + "-" + global.simpleDateFormat2.format(w.getEndDate());
+        String dateR = DataHandler.simpleDateFormat2.format(w.getStartDate()) + "-" + DataHandler.simpleDateFormat2.format(w.getEndDate());
         title = "Week " + dateR;
         calculate(w.getID());
     }
