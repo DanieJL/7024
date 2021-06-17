@@ -49,7 +49,6 @@ public class global extends MainActivity {
         editor.putString("JSON", weeksJSON.toString());
         editor.putInt("lastID", global.LAST_ID);
         editor.apply();
-        System.out.println("*******************************DATA SAVED*******************************");
     }
 
     public static void loadAllData() {
@@ -74,6 +73,5 @@ public class global extends MainActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println("*******************************DATA LOADED*******************************");
     }
 }

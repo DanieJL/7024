@@ -432,6 +432,7 @@
                         android:layout_height="60dp"
                         android:gravity="center"
                         android:text="CALCULATE"
+                        android:hapticFeedbackEnabled="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         tools:layout_editor_absoluteX="10dp"
                         tools:layout_editor_absoluteY="99dp" />

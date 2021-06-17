@@ -6,9 +6,12 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +65,10 @@ public class WeekActivity extends AppCompatActivity {
         }
 
         Button btn = findViewById(R.id.calculate);
-        btn.setOnClickListener(v -> calculate(global.ACTIVE_ID));
+        btn.setOnClickListener(v -> {
+            calculate(global.ACTIVE_ID);
+            btn.performHapticFeedback(16);
+        });
         super.onResume();
     }
 
@@ -101,10 +107,10 @@ public class WeekActivity extends AppCompatActivity {
         String atTemp = actualTimeEntries.get(day).getText().toString();
         String perTemp = percentEntries.get(day).getText().toString();
 
-        if(perTemp.length()>0 && atTemp.length()>0) {
-            double per = Double.parseDouble(perTemp)/100;
+        if (Week.isValidInput(atTemp, perTemp)) {
+            double per = Double.parseDouble(perTemp) / 100;
             double at = Week.getTimeAsDecimal(atTemp);
-            atTemp = Week.getDecimalAsTime(per*at);
+            atTemp = Week.getDecimalAsTime((per * at));
 
             String msg = dayText + " standard time: " + atTemp;
             Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 3000);
@@ -112,38 +118,42 @@ public class WeekActivity extends AppCompatActivity {
         }
     }
 
-    private void colorForBadInput(){
-        for(int i = 0; i<7; i++){
-            double per = 0;
+    //make valid input text color white, invalid input text color gray
+    private void colorForBadInput() {
+        for (int i = 0; i < 7; i++) {
             String at = actualTimeEntries.get(i).getText().toString();
-            String perString = percentEntries.get(i).getText().toString();
+            String per = percentEntries.get(i).getText().toString();
 
-            if(perString.length()>0) {
-                per = Double.parseDouble(perString);
-            }
-            if(at.matches("([0-9]+:[0-9]+|[0-9]+)") && per > 0){
+            if (Week.isValidInput(at, per)) {
                 actualTimeEntries.get(i).setTextColor(Color.WHITE);
                 percentEntries.get(i).setTextColor(Color.WHITE);
-            }
-            else {
+            } else {
                 actualTimeEntries.get(i).setTextColor(Color.GRAY);
                 percentEntries.get(i).setTextColor(Color.GRAY);
             }
         }
     }
 
-    //save Week objects to JSON, put into sharedPreferences
+    //put current AT/Per inputs into current week object, then save all data
     private void saveWeekPage(int ID) {
         String[] ats = new String[7];
         double[] pers = new double[7];
         for (int i = 0; i < 7; i++) {
-            EditText atEntry = actualTimeEntries.get(i);
-            EditText perEntry = percentEntries.get(i);
-            if (atEntry.getText().length() > 0) {
-                ats[i] = atEntry.getText().toString();
+            String atEntry = actualTimeEntries.get(i).getText().toString();
+            String perEntry = percentEntries.get(i).getText().toString();
+            if (atEntry.length() > 0) {
+                ats[i] = atEntry;
+            } else {
+                ats[i] = null;
             }
-            if (perEntry.getText().length() > 0) {
-                pers[i] = Double.parseDouble(perEntry.getText().toString());
+            if (perEntry.length() > 0) {
+                try{
+                    pers[i] = Double.parseDouble(perEntry);
+                } catch (NumberFormatException e) {
+                    pers[i] = 0;
+                }
+            } else {
+                pers[i] = 0;
             }
         }
         for (Week w : global.WEEKLIST) {
@@ -156,10 +166,11 @@ public class WeekActivity extends AppCompatActivity {
         global.saveAllData();
     }
 
+    //build the week page from stored data for week being looked at
     private void populateWeekPage(int ID) {
         for (TextView e : dateList) {
             String number = e.getTag().toString().replaceAll("[^0-9]", "");
-            e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number)-1), e.getText().toString()));
+            e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number) - 1), e.getText().toString()));
         }
         Week w = new Week(new Date());
         for (Week m : global.WEEKLIST) {

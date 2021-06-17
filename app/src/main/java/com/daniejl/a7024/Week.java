@@ -48,14 +48,14 @@ public class Week {
         double incentivePay = 0;
         double totalHrs = 0;
         if (extraPercent > 0) {
-            if (extraPercent > global.INCENTIVE_MAX - global.INCENTIVE_MIN) {
+            if (extraPercent > (global.INCENTIVE_MAX - global.INCENTIVE_MIN)) {
                 extraPercent = global.INCENTIVE_MAX - global.INCENTIVE_MIN;
             }
             extraPercent = extraPercent / 100;
             incentivePay = extraPercent * global.BASE_PAY;
             for (int i = 0; i < 7; i++) {
-                if (this.actualTimes[i] != null && this.percentages[i] > 0) {
-                    totalHrs += getTimeAsDecimal(actualTimes[i]);
+                if (isValidInput(this.actualTimes[i], this.percentages[i])) {
+                    totalHrs += getTimeAsDecimal(this.actualTimes[i]);
                 }
             }
             incentivePay = incentivePay * totalHrs;
@@ -67,9 +67,10 @@ public class Week {
         double totalHrs = 0;
         double weight = 0;
         for (int i = 0; i < 7; i++) {
-            if (this.actualTimes[i] != null && this.percentages[i] > 0) {
-                totalHrs += getTimeAsDecimal(actualTimes[i]);
-                weight += getTimeAsDecimal(actualTimes[i]) * percentages[i];
+            if (isValidInput(this.actualTimes[i], this.percentages[i])) {
+                double time = getTimeAsDecimal(this.actualTimes[i]);
+                totalHrs += time;
+                weight += time * this.percentages[i];
             }
         }
         double average = weight / totalHrs;
@@ -79,10 +80,33 @@ public class Week {
         return 0;
     }
 
+    public static boolean isValidInput(String actualTime, String percent) {
+        boolean result = false;
+        double at = getTimeAsDecimal(actualTime);
+        if (percent.matches("([0-9]+.[0-9]+|[0-9]+|.[0-9]+|[0-9]+.)")) {
+            double per = Double.parseDouble(percent);
+            if (per > 0 && per < 99999 && at > 0 && at < 99999) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public static boolean isValidInput(String actualTime, double per) {
+        boolean result = false;
+        double at = getTimeAsDecimal(actualTime);
+        if (per > 0 && per < 99999 && at > 0 && at < 99999) {
+            result = true;
+        }
+        return result;
+    }
 
     //creates a double from a time string, "10:30" = 10.5, "9:45" = 9.75, etc.
     public static double getTimeAsDecimal(String s) {
         double hours = 0;
+        if (s == null) {
+            return hours;
+        }
         if (s.matches("([0-9]+:[0-9]+|[0-9]+)")) {
             if (s.contains(":")) {
                 hours = Double.parseDouble(s.substring(0, s.lastIndexOf(":")));
@@ -91,8 +115,6 @@ public class Week {
             } else {
                 hours = Double.parseDouble(s);
             }
-        } else {
-            System.out.println(s + ": NON REGEX MATCH");
         }
         return hours;
     }
@@ -100,7 +122,7 @@ public class Week {
     //creates a time string from double, 10.5 = "10:30" , 9.75 = "9:45", etc.
     public static String getDecimalAsTime(double d) {
         String time = Double.toString(d);
-        String hrsString = time.substring(0,time.indexOf("."));
+        String hrsString = time.substring(0, time.indexOf("."));
         String minsString = time.substring(time.indexOf("."));
 
         int hrs = Integer.parseInt(hrsString);
@@ -109,7 +131,7 @@ public class Week {
         hrsString = String.valueOf(hrs);
         minsString = String.valueOf(mins);
         minsString = minsString.substring(0, minsString.lastIndexOf("."));
-        if(minsString.length()<2){
+        if (minsString.length() < 2) {
             minsString = "0" + minsString;
         }
         return (hrsString + ":" + minsString);
