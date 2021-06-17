@@ -107,7 +107,7 @@ public class Week {
         if (s == null) {
             return hours;
         }
-        if (s.matches("([0-9]+:[0-9]+|[0-9]+)")) {
+        if (s.matches("([0-9]+:[0-5][0-9]|[0-9]+)")) {
             if (s.contains(":")) {
                 hours = Double.parseDouble(s.substring(0, s.lastIndexOf(":")));
                 double minutes = Double.parseDouble(s.substring(s.lastIndexOf(":") + 1));

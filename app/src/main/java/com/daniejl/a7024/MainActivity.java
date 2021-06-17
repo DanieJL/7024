@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         DataHandler.WEEKLIST.sort(Comparator.comparing(Week::getStartDate).thenComparing(Week::getID).reversed());
 
         for (Week w : DataHandler.WEEKLIST) {
-            String title = DataHandler.simpleDateFormat.format(w.getStartDate()) + "-" + DataHandler.simpleDateFormat2.format(w.getEndDate());
+            String title = DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYFormat.format(w.getEndDate());
             if (w.getWeekPerformance() > 0) {
                 title += " [" + DataHandler.df.format(w.getWeekPerformance()) + "%]";
             } else {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             myButton.setOnLongClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth));
                 builder.setCancelable(true);
-                builder.setMessage("Delete the week of " + DataHandler.simpleDateFormat.format(w.getStartDate()) + "-" + DataHandler.simpleDateFormat.format(w.getEndDate()) + "?");
+                builder.setMessage("Delete the week of " + DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDFormat.format(w.getEndDate()) + "?");
                 builder.setPositiveButton("Confirm", (dialog, which) -> {
                     DataHandler.WEEKLIST.remove(w);
                     DataHandler.saveAllData();
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             String strDate = month + "/" + day + "/" + year;
             Date date = null;
             try {
-                date = DataHandler.simpleDateFormat2.parse(strDate);
+                date = DataHandler.MDYYYFormat.parse(strDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -15,7 +15,7 @@ import java.util.Locale;
 public class DataHandler extends MainActivity {
     public static int LAST_ID = 0;       //increment IDs for created weeks
     public static int ACTIVE_ID;         //the ID of the week currently opened
-    public static double BASE_PAY = 20;     //the user's base pay
+    public static double BASE_PAY = 20;  //the user's base pay
 
     public static double INCENTIVE_MIN = 100;
     public static double INCENTIVE_MAX = 130;
@@ -26,9 +26,9 @@ public class DataHandler extends MainActivity {
 
     public static final DecimalFormat df = new DecimalFormat("#0.00");
     public static final Locale LOCALE = new Locale("en", "US");
-    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d", LOCALE);
-    public static final SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("M/d/yyyy", LOCALE);
-    public static final SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("EEE, M/d", LOCALE);
+    public static final SimpleDateFormat MDFormat = new SimpleDateFormat("M/d", LOCALE);
+    public static final SimpleDateFormat MDYYYFormat = new SimpleDateFormat("M/d/yyyy", LOCALE);
+    public static final SimpleDateFormat EEEMDFormat = new SimpleDateFormat("EEE, M/d", LOCALE);
 
     public static void saveAllData() {
         JSONArray weeksJSON = new JSONArray();
