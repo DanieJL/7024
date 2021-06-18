@@ -194,7 +194,7 @@ public class WeekActivity extends AppCompatActivity {
                 String perString = Double.toString(pers[i]);
                 perEntry.setText(perString);
             }
-            String dateTitle = "  " + DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
+            String dateTitle = " " + DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
             dateBox.setText(dateTitle);
         }
         String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
