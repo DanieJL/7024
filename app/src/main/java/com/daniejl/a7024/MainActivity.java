@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        DataHandler.WEEKLIST.sort(Comparator.comparing(Week::getStartDate).thenComparing(Week::getID).reversed());
+        DataHandler.WEEK_LIST.sort(Comparator.comparing(Week::getStartDate).thenComparing(Week::getID).reversed());
 
-        for (Week w : DataHandler.WEEKLIST) {
-            String title = DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYFormat.format(w.getEndDate());
+        for (Week w : DataHandler.WEEK_LIST) {
+            String title = DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
             if (w.getWeekPerformance() > 0) {
                 title += " [" + DataHandler.df.format(w.getWeekPerformance()) + "%]";
             } else {
@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
             myButton.setOnLongClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth));
                 builder.setCancelable(true);
-                builder.setMessage("Delete the week of " + DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDFormat.format(w.getEndDate()) + "?");
+                builder.setMessage("Delete the week of " + DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate()) + "?");
                 builder.setPositiveButton("Confirm", (dialog, which) -> {
-                    DataHandler.WEEKLIST.remove(w);
+                    DataHandler.WEEK_LIST.remove(w);
                     DataHandler.saveAllData();
                     createMainButtons();
                 });
@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
             String strDate = month + "/" + day + "/" + year;
             Date date = null;
             try {
-                date = DataHandler.MDYYYFormat.parse(strDate);
+                date = DataHandler.MDYYYYFormat.parse(strDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             if (date != null) {
                 Week newWeek = new Week(date);
-                DataHandler.WEEKLIST.add(newWeek);
+                DataHandler.WEEK_LIST.add(newWeek);
                 DataHandler.ACTIVE_ID = newWeek.getID();
                 DataHandler.saveAllData();
                 startActivity(new Intent(MainActivity.this, WeekActivity.class));

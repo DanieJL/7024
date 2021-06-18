@@ -92,7 +92,7 @@ public class WeekActivity extends AppCompatActivity {
         colorForBadInput();
         TextView incentive = findViewById(R.id.incentive);
         TextView average = findViewById(R.id.average);
-        for (Week w : DataHandler.WEEKLIST) {
+        for (Week w : DataHandler.WEEK_LIST) {
             if (ID == w.getID()) {
                 String avg = "Average: " + DataHandler.df.format(w.getWeekPerformance()) + "%";
                 average.setText(avg);
@@ -157,7 +157,7 @@ public class WeekActivity extends AppCompatActivity {
                 pers[i] = 0;
             }
         }
-        for (Week w : DataHandler.WEEKLIST) {
+        for (Week w : DataHandler.WEEK_LIST) {
             if (ID == w.getID()) {
                 w.setActualTimes(ats);
                 w.setPercentages(pers);
@@ -174,7 +174,7 @@ public class WeekActivity extends AppCompatActivity {
             e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number) - 1), e.getText().toString()));
         }
         Week w = new Week(new Date());
-        for (Week m : DataHandler.WEEKLIST) {
+        for (Week m : DataHandler.WEEK_LIST) {
             if (m.getID() == ID) {
                 w = m;
                 break;
@@ -197,7 +197,7 @@ public class WeekActivity extends AppCompatActivity {
             String dateTitle = "  " + DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
             dateBox.setText(dateTitle);
         }
-        String dateR = DataHandler.MDYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYFormat.format(w.getEndDate());
+        String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
         title = "Week " + dateR;
         calculate(w.getID());
     }

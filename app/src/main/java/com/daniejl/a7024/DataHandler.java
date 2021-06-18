@@ -20,19 +20,19 @@ public class DataHandler extends MainActivity {
     public static double INCENTIVE_MIN = 100;
     public static double INCENTIVE_MAX = 130;
 
-    public static List<Week> WEEKLIST = new ArrayList<>();
+    public static List<Week> WEEK_LIST = new ArrayList<>();
     public static SharedPreferences SAVE_FILE;
     public static DatePickerDialog.OnDateSetListener mDateSetListener;
 
     public static final DecimalFormat df = new DecimalFormat("#0.00");
     public static final Locale LOCALE = new Locale("en", "US");
     public static final SimpleDateFormat MDFormat = new SimpleDateFormat("M/d", LOCALE);
-    public static final SimpleDateFormat MDYYYFormat = new SimpleDateFormat("M/d/yyyy", LOCALE);
+    public static final SimpleDateFormat MDYYYYFormat = new SimpleDateFormat("M/d/yyyy", LOCALE);
     public static final SimpleDateFormat EEEMDFormat = new SimpleDateFormat("EEE, M/d", LOCALE);
 
     public static void saveAllData() {
         JSONArray weeksJSON = new JSONArray();
-        for (Week W : DataHandler.WEEKLIST) {
+        for (Week W : DataHandler.WEEK_LIST) {
             JSONObject data = new JSONObject();
             try {
                 data.put("ID", W.getID());
@@ -52,7 +52,7 @@ public class DataHandler extends MainActivity {
     }
 
     public static void loadAllData() {
-        DataHandler.WEEKLIST.clear();
+        DataHandler.WEEK_LIST.clear();
         SharedPreferences prefs = SAVE_FILE;
         String JSONString = prefs.getString("JSON", "");
         DataHandler.LAST_ID = prefs.getInt("lastID", 0);
@@ -68,7 +68,7 @@ public class DataHandler extends MainActivity {
                 String actualTimes = week.getString("actualTimes");
                 String percentages = week.getString("percentages");
 
-                DataHandler.WEEKLIST.add(new Week(id, startDate, endDate, actualTimes, percentages));
+                DataHandler.WEEK_LIST.add(new Week(id, startDate, endDate, actualTimes, percentages));
             }
         } catch (JSONException e) {
             e.printStackTrace();
