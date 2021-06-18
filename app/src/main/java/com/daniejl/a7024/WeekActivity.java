@@ -3,6 +3,7 @@ package com.daniejl.a7024;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -114,7 +115,11 @@ public class WeekActivity extends AppCompatActivity {
             atTemp = Week.getDecimalAsTime((per * at));
 
             String msg = dayText + " standard time: " + atTemp;
-            Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 3000);
+            Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 1500);
+            View mView = mySnackbar.getView();
+            TextView sbTextView = (TextView) mView.findViewById(com.google.android.material.R.id.snackbar_text);
+            sbTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            sbTextView.setBackgroundColor(Color.DKGRAY);
             mySnackbar.show();
         }
     }
