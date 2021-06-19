@@ -57,14 +57,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.infoButton) {
-            startActivity(new Intent(MainActivity.this, InfoActivity.class));
+        if (item.getItemId() == R.id.statsButton) {
+            startActivity(new Intent(MainActivity.this, StatActivity.class));
+            return true;
+        }
+        if (item.getItemId() == R.id.helpButton) {
+            startActivity(new Intent(MainActivity.this, HelpActivity.class));
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+            /*Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+            startActivity(intent);*/
             return true;
         }
         return super.onOptionsItemSelected(item);

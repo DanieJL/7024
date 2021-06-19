@@ -7,8 +7,6 @@
     <string name="performance">Performance %</string>
     <string name="calculate">CALCULATE</string>
     <string name="add_a_new_week">Add a new week.</string>
-    <string name="title_activity_info">InfoActivity</string>
-    <string name="tab_text_1">Stats</string>
-    <string name="tab_text_2">Help</string>
-    <string name="info">Info</string>
+    <string name="stats">Stats</string>
+    <string name="help">Help</string>
 </resources>
