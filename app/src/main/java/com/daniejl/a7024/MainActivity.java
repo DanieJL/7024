@@ -50,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
             if (w.getWeekPerformance() > 0) {
                 title += " [" + DataHandler.df.format(w.getWeekPerformance()) + "%]";
             } else {
-                title += " (empty)";
+                title += " [empty]";
             }
             Button myButton = new Button(this);
             myButton.setText(title);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((displayMetrics.widthPixels - 20), (displayMetrics.heightPixels/10));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((displayMetrics.widthPixels - 20), 200);
             lp.gravity = Gravity.CENTER_HORIZONTAL;
             myButton.setHapticFeedbackEnabled(true);
             myButton.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
