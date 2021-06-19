@@ -15,7 +15,7 @@ public class StatActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Statistics");
+            actionBar.setTitle("7024 Statistics");
         }
 
         populateStats();

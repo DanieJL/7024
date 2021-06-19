@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -14,7 +15,11 @@ public class HelpActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Information");
+            actionBar.setTitle("7024 Information");
         }
+
+        TextView helpBox = findViewById(R.id.helpBox);
+        String help = "Helpful things here";
+        helpBox.setText(help);
     }
 }
