@@ -74,8 +74,8 @@ public class HelpActivity extends AppCompatActivity {
         helpBox.setText(Html.fromHtml(help));
 
         TextView creditBox = findViewById(R.id.creditBox);
-        String credit = "App made by Daniel Johnson<br><br>Special thanks to:" +
-                "<br>-Evan \"Evan\" Sipes<br>-Stephan \"Briggs\" Briggs";
+        String credit = "<b>App made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
+                "<br>Evan \"Evan\" Sipes<br>Stephan \"Briggs\" Briggs";
         creditBox.setText(Html.fromHtml(credit));
 
     }
