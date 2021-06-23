@@ -6,6 +6,7 @@ public class Week {
     private final int ID;
     private final Date startDate;
     private final Date endDate;
+    private boolean error = false;
     private String[] actualTimes = new String[7];
     private double[] percentages = new double[7];
 
@@ -14,16 +15,20 @@ public class Week {
         this.ID = DataHandler.LAST_ID + 1;
         DataHandler.LAST_ID = this.ID;
 
+        this.error = false;
         this.startDate = start;
         long time1 = startDate.getTime();
         long time2 = time1 + (6 * 86400 * 1000);
         this.endDate = new Date(time2);
     }
 
-    Week(int id, String start, String end, String ats, String pers) {
+    Week(int id, String start, String end, String err, String ats, String pers) {
         this.ID = id;
+
         this.startDate = new Date(Long.parseLong(start));
         this.endDate = new Date(Long.parseLong(end));
+
+        this.error = err.equals("true");
 
         ats = ats.substring(1, ats.length() - 1);
         pers = pers.substring(1, pers.length() - 1);
@@ -144,6 +149,10 @@ public class Week {
     public void setActualTimes(String[] actualTimes) {
         this.actualTimes = actualTimes;
     }
+
+    public boolean isError() {return error;}
+
+    public void setError(boolean error) {this.error = error;}
 
     public Date getEndDate() {
         return endDate;

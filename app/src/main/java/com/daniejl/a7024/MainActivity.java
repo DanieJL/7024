@@ -15,14 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Objects;
+import static android.graphics.Color.GRAY;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("7024 by DJ");
+            actionBar.setTitle("[7024 App] Home");
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_home);
         }
@@ -66,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            /*Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);*/
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -97,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
             lp.gravity = Gravity.CENTER_HORIZONTAL;
             myButton.setHapticFeedbackEnabled(true);
             myButton.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
+            if(w.isError()){
+                myButton.setTextColor(GRAY);
+            }
             ll.addView(myButton, lp);
 
             myButton.setOnClickListener(v -> {
@@ -109,11 +111,27 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault_Dialog_MinWidth));
                 builder.setCancelable(true);
                 builder.setMessage("Delete the week of " + DataHandler.MDFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate()) + "?");
-                builder.setPositiveButton("Confirm", (dialog, which) -> {
+                builder.setPositiveButton("Delete", (dialog, which) -> {
                     DataHandler.WEEK_LIST.remove(w);
                     DataHandler.saveAllData();
                     createMainButtons();
                 });
+
+                if(w.isError()) {
+                    builder.setNeutralButton("Remove Error", (dialog, which) -> {
+                        w.setError(false);
+                        DataHandler.saveAllData();
+                        createMainButtons();
+                    });
+                }
+                else{
+                    builder.setNeutralButton("Add Error", (dialog, which) -> {
+                        w.setError(true);
+                        DataHandler.saveAllData();
+                        createMainButtons();
+                    });
+                }
+
                 builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 });
                 AlertDialog dialog = builder.create();

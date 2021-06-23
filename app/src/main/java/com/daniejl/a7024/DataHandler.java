@@ -17,8 +17,8 @@ public class DataHandler extends MainActivity {
     public static int ACTIVE_ID;         //the ID of the week currently opened
     public static double BASE_PAY = 20;  //the user's base pay
 
-    public static double INCENTIVE_MIN = 100;
-    public static double INCENTIVE_MAX = 130;
+    public static int INCENTIVE_MIN = 100;
+    public static int INCENTIVE_MAX = 130;
 
     public static List<Week> WEEK_LIST = new ArrayList<>();
     public static SharedPreferences SAVE_FILE;
@@ -38,6 +38,7 @@ public class DataHandler extends MainActivity {
                 data.put("ID", W.getID());
                 data.put("startDate", W.getStartDate().getTime());
                 data.put("endDate", W.getEndDate().getTime());
+                data.put("error", W.isError());
                 data.put("actualTimes", Arrays.toString(W.getActualTimes()));
                 data.put("percentages", Arrays.toString(W.getPercentages()));
                 weeksJSON.put(data);
@@ -48,6 +49,8 @@ public class DataHandler extends MainActivity {
         SharedPreferences.Editor editor = SAVE_FILE.edit();
         editor.putString("JSON", weeksJSON.toString());
         editor.putInt("lastID", DataHandler.LAST_ID);
+        editor.putInt("incentiveCap", DataHandler.INCENTIVE_MAX);
+        editor.putString("basePay", String.valueOf(DataHandler.BASE_PAY));
         editor.apply();
     }
 
@@ -56,6 +59,8 @@ public class DataHandler extends MainActivity {
         SharedPreferences prefs = SAVE_FILE;
         String JSONString = prefs.getString("JSON", "");
         DataHandler.LAST_ID = prefs.getInt("lastID", 0);
+        DataHandler.INCENTIVE_MAX = prefs.getInt("incentiveCap", 130);
+        DataHandler.BASE_PAY = Double.parseDouble(prefs.getString("basePay", "18"));
 
         try {
             JSONArray temp = new JSONArray(JSONString);
@@ -65,10 +70,11 @@ public class DataHandler extends MainActivity {
                 int id = week.getInt("ID");
                 String startDate = week.getString("startDate");
                 String endDate = week.getString("endDate");
+                String error = week.getString("error");
                 String actualTimes = week.getString("actualTimes");
                 String percentages = week.getString("percentages");
 
-                DataHandler.WEEK_LIST.add(new Week(id, startDate, endDate, actualTimes, percentages));
+                DataHandler.WEEK_LIST.add(new Week(id, startDate, endDate, error, actualTimes, percentages));
             }
         } catch (JSONException e) {
             e.printStackTrace();
