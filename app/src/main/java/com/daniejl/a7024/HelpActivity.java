@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,16 +16,16 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("[7024] Information");
+        }
     }
 
     @Override
     protected void onResume() {
         populateHelpPage();
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("[7024 App] Information");
-        }
         super.onResume();
     }
 
@@ -32,6 +33,14 @@ public class HelpActivity extends AppCompatActivity {
     public void onPause() {
         saveSettings();
         super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return true;
     }
 
     private void saveSettings() {
@@ -69,7 +78,7 @@ public class HelpActivity extends AppCompatActivity {
         SwitchCompat exclude = findViewById(R.id.excludeSwitch);
         exclude.setChecked(DataHandler.EXCLUDE_ERRORS);
 
-        TextView helpBox = findViewById(R.id.helpBox);
+        TextView helpBox = findViewById(R.id.middleBox);
         String help = "<b>Base Pay:</b> Hourly pay before any premiums are added on, typically less than total hourly pay.<br>" +
                 "<b>Incentive Pay:</b> Extra hourly pay earned based on weekly performance % and base pay.<br>" +
                 "<b>Incentive Cap:</b> The performance percent where incentive pay maxes out.<br>" +
@@ -79,7 +88,7 @@ public class HelpActivity extends AppCompatActivity {
                 "<b>Error:</b> A mispick which causes the loss of incentive pay for the week in which it occurs.";
         helpBox.setText(Html.fromHtml(help, Html.FROM_HTML_MODE_COMPACT));
 
-        TextView creditBox = findViewById(R.id.creditBox);
+        TextView creditBox = findViewById(R.id.bottomBox);
         String credit = "<b>App made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
                 "<br>Evan \"Evan\" Sipes<br>Stephan \"Briggs\" Briggs";
         creditBox.setText(Html.fromHtml(credit, Html.FROM_HTML_MODE_COMPACT));

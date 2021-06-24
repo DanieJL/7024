@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class StatActivity extends AppCompatActivity {
@@ -16,10 +17,22 @@ public class StatActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024 App] Statistics");
+            actionBar.setTitle("[7024] Statistics");
         }
-        populateStats();
+    }
 
+    @Override
+    protected void onResume() {
+        populateStats();
+        super.onResume();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return true;
     }
 
     private void populateStats() {
@@ -69,11 +82,12 @@ public class StatActivity extends AppCompatActivity {
 
             String text = "<br>Total Days: " + totalDays + "<br>" +
                     "<br>Average Percent: " + DataHandler.df.format(avgPer) + "%" +
-                    "<br>Average Actual Time: " + Week.getDecimalAsTime(avgAT) +
-                    "<br>Average Standard Time: " + Week.getDecimalAsTime(avgST) +
-                    "<br>" +
                     "<br>Best Percent: " + DataHandler.df.format(bestPer) + "%" +
+                    "<br>" +
+                    "<br>Average Actual Time: " + Week.getDecimalAsTime(avgAT) +
                     "<br>Best Actual Time: " + Week.getDecimalAsTime(bestAT) +
+                    "<br>" +
+                    "<br>Average Standard Time: " + Week.getDecimalAsTime(avgST) +
                     "<br>Best Standard Time: " + Week.getDecimalAsTime(bestST) +
                     "<br>" +
                     "<br>Total Incentive Pay: $" + DataHandler.df.format(totalInc) +

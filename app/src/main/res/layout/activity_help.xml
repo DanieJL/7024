@@ -102,32 +102,18 @@
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/excludeSwitch"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/exclude_weeks_with_errors_from_statistics_page"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="#D6D6D6" />
 
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:text="@string/exclude_weeks_with_errors_from_statistics_page"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/excludeSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:gravity="start|center_vertical"
-                            android:textColor="#D6D6D6" />
-                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -149,15 +135,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/about"
+                    android:text="@string/terms"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/creditBox"
+                    android:id="@+id/middleBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/customborder"
-                    android:gravity="center_horizontal"
+                    android:gravity="start"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
@@ -177,15 +163,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/help"
+                    android:text="@string/about"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
-                    android:id="@+id/helpBox"
+                    android:id="@+id/bottomBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/customborder"
-                    android:gravity="start"
+                    android:gravity="center_horizontal|center_vertical"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 

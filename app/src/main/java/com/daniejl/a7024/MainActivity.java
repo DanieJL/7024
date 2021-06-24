@@ -23,9 +23,14 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Random;
+
 import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity {
+
+    String[] greetings = {"Welcome!", "What's up?", "Yo yo yo!", "Hi friend!", "Howdy partner!", "What's new?", "G'day mate!", "Hi there!", "Hello!", "Sup!?", "Hiya pal!", "Ahoy matey!", "Goodmorrow!",
+    "What's crackin'?", "‘Ello, gov’nor!", "Aloha!", "Greetings!", "Whazzzzup!?", "Bonjour!"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024 App] Home");
+            int index = new Random().nextInt(greetings.length);
+            actionBar.setTitle("[7024] " + greetings[index]);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_home);
         }
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            Uri uri = Uri.parse("http://www.google.com");
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.daniejl.a7024");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
             return true;

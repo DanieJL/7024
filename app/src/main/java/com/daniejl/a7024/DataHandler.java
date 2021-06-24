@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class DataHandler extends MainActivity {
-    public static int LAST_ID = 0;       //increment IDs for created weeks
-    public static int ACTIVE_ID;         //the ID of the week currently opened
-    public static double BASE_PAY = 20;  //the user's base pay
+    public static int LAST_ID = 0;         //increment IDs for created weeks
+    public static int ACTIVE_ID;           //the ID of the week currently opened
+    public static double BASE_PAY = 18.5;  //the user's base pay
     public static boolean EXCLUDE_ERRORS = true;
 
     public static int INCENTIVE_MIN = 100;
@@ -28,6 +28,7 @@ public class DataHandler extends MainActivity {
     public static DatePickerDialog.OnDateSetListener mDateSetListener;
 
     public static final DecimalFormat df = new DecimalFormat("#0.00");
+    public static final DecimalFormat df2 = new DecimalFormat("0.####");
     public static final Locale LOCALE = new Locale("en", "US");
     public static final SimpleDateFormat MDFormat = new SimpleDateFormat("M/d", LOCALE);
     public static final SimpleDateFormat MDYYYYFormat = new SimpleDateFormat("M/d/yyyy", LOCALE);

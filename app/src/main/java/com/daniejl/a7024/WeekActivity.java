@@ -82,7 +82,6 @@ public class WeekActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //getContentView().performHapticFeedback(5);
             onBackPressed();
         }
         return true;
@@ -196,14 +195,14 @@ public class WeekActivity extends AppCompatActivity {
                 atEntry.setText(ats[i]);
             }
             if (pers[i] > 0) {
-                String perString = Double.toString(pers[i]);
+                String perString = DataHandler.df2.format(pers[i]);
                 perEntry.setText(perString);
             }
             String dateTitle = " " + DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
             dateBox.setText(dateTitle);
         }
         String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
-        title = "Week " + dateR;
+        title = "[7024] " + dateR;
         calculate(w.getID());
     }
 }
