@@ -6,7 +6,7 @@ public class Week {
     private final int ID;
     private final Date startDate;
     private final Date endDate;
-    private boolean error = false;
+    private boolean error;
     private String[] actualTimes = new String[7];
     private double[] percentages = new double[7];
 
@@ -90,7 +90,7 @@ public class Week {
         double at = getTimeAsDecimal(actualTime);
         if (percent.matches("([0-9]+.[0-9]+|[0-9]+|.[0-9]+|[0-9]+.)")) {
             double per = Double.parseDouble(percent);
-            if (per > 0 && per < 99999 && at > 0 && at < 99999) {
+            if (per > 0 && per < 10000000 && at > 0 && at < 100000) {
                 result = true;
             }
         }
@@ -100,7 +100,7 @@ public class Week {
     public static boolean isValidInput(String actualTime, double per) {
         boolean result = false;
         double at = getTimeAsDecimal(actualTime);
-        if (per > 0 && per < 99999 && at > 0 && at < 99999) {
+        if (per > 0 && per < 10000000 && at > 0 && at < 100000) {
             result = true;
         }
         return result;

@@ -2,6 +2,7 @@ package com.daniejl.a7024;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -17,11 +18,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import static android.graphics.Color.GRAY;
+import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //create the toolbar buttons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.statsButton) {
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+            Uri uri = Uri.parse("http://www.google.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
             return true;
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //for all Weeks in weekList create a button on the main page
+    //for all Weeks in weekList create a button on the main page + their actions
     private void createMainButtons() {
         LinearLayout ll = findViewById(R.id.weeklist);
         ll.removeAllViews();
@@ -96,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
             lp.gravity = Gravity.CENTER_HORIZONTAL;
             myButton.setHapticFeedbackEnabled(true);
             myButton.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
-            if(w.isError()){
-                myButton.setTextColor(GRAY);
+            if (w.isError()) {
+                myButton.setTextColor(rgb(180, 180, 180));
             }
             ll.addView(myButton, lp);
 
@@ -117,14 +120,13 @@ public class MainActivity extends AppCompatActivity {
                     createMainButtons();
                 });
 
-                if(w.isError()) {
+                if (w.isError()) {
                     builder.setNeutralButton("Remove Error", (dialog, which) -> {
                         w.setError(false);
                         DataHandler.saveAllData();
                         createMainButtons();
                     });
-                }
-                else{
+                } else {
                     builder.setNeutralButton("Add Error", (dialog, which) -> {
                         w.setError(true);
                         DataHandler.saveAllData();

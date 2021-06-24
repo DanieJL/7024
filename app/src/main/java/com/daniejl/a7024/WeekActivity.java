@@ -153,7 +153,7 @@ public class WeekActivity extends AppCompatActivity {
                 ats[i] = null;
             }
             if (perEntry.length() > 0) {
-                try{
+                try {
                     pers[i] = Double.parseDouble(perEntry);
                 } catch (NumberFormatException e) {
                     pers[i] = 0;
