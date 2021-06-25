@@ -11,6 +11,7 @@ public class Week {
     private double[] percentages = new double[7];
 
 
+    //constructor for user created weeks
     Week(Date start) {
         this.ID = DataHandler.LAST_ID + 1;
         DataHandler.LAST_ID = this.ID;
@@ -22,6 +23,7 @@ public class Week {
         this.endDate = new Date(time2);
     }
 
+    //constructor for re-creating weeks from save data
     Week(int id, String start, String end, String err, String ats, String pers) {
         this.ID = id;
 
@@ -48,6 +50,7 @@ public class Week {
         }
     }
 
+    //calculate the incentive for the week
     public double getWeekIncentive() {
         double extraPercent = getWeekPerformance() - DataHandler.INCENTIVE_MIN;
         double incentivePay = 0;
@@ -68,6 +71,7 @@ public class Week {
         return incentivePay;
     }
 
+    //calculate the performance for the week
     public double getWeekPerformance() {
         double totalHrs = 0;
         double weight = 0;
@@ -85,6 +89,27 @@ public class Week {
         return 0;
     }
 
+    public String getWeekActualTime(){
+        double actHrs = 0;
+        for (int i = 0; i < 7; i++) {
+            if (isValidInput(this.actualTimes[i], this.percentages[i])) {
+                actHrs += getTimeAsDecimal(this.actualTimes[i]);
+            }
+        }
+        return getDecimalAsTime(actHrs);
+    }
+
+    public String getWeekStandardTime(){
+        double stdHrs = 0;
+        for (int i = 0; i < 7; i++) {
+            if (isValidInput(this.actualTimes[i], this.percentages[i])) {
+                stdHrs += getTimeAsDecimal(this.actualTimes[i]) * (this.percentages[i]/100);
+            }
+        }
+        return getDecimalAsTime(stdHrs);
+    }
+
+    //used to verify input is valid
     public static boolean isValidInput(String actualTime, String percent) {
         boolean result = false;
         double at = getTimeAsDecimal(actualTime);
@@ -97,6 +122,7 @@ public class Week {
         return result;
     }
 
+    //used to verify input is valid
     public static boolean isValidInput(String actualTime, double per) {
         boolean result = false;
         double at = getTimeAsDecimal(actualTime);

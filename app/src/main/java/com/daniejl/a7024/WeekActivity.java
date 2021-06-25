@@ -2,6 +2,7 @@ package com.daniejl.a7024;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -92,12 +93,21 @@ public class WeekActivity extends AppCompatActivity {
         colorForBadInput();
         TextView incentive = findViewById(R.id.incentive);
         TextView average = findViewById(R.id.average);
+        TextView actual = findViewById(R.id.actual);
+        TextView standard = findViewById(R.id.standard);
         for (Week w : DataHandler.WEEK_LIST) {
             if (ID == w.getID()) {
-                String avg = "Average: " + DataHandler.df.format(w.getWeekPerformance()) + "%";
+                String avg = "Percent: " + DataHandler.df.format(w.getWeekPerformance()) + "%";
                 average.setText(avg);
                 String inc = "Incentive: $" + DataHandler.df.format(w.getWeekIncentive());
-                incentive.setText(inc);
+                if(w.isError()){
+                    inc = "<s>Incentive: $" + DataHandler.df.format(w.getWeekIncentive()) + "</s>";
+                }
+                incentive.setText(Html.fromHtml(inc, Html.FROM_HTML_MODE_COMPACT));
+                String act = "Actual: " + w.getWeekActualTime();
+                actual.setText(act);
+                String stnd = "Standard: " + w.getWeekStandardTime();
+                standard.setText(stnd);
                 break;
             }
         }
@@ -116,7 +126,7 @@ public class WeekActivity extends AppCompatActivity {
             String msg = dayText + " standard time: " + atTemp;
             Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 1500);
             View mView = mySnackbar.getView();
-            TextView sbTextView = (TextView) mView.findViewById(com.google.android.material.R.id.snackbar_text);
+            TextView sbTextView = mView.findViewById(com.google.android.material.R.id.snackbar_text);
             sbTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             sbTextView.setBackgroundColor(Color.DKGRAY);
             mySnackbar.show();

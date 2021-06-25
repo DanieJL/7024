@@ -19,7 +19,7 @@ public class HelpActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024] Information");
+            actionBar.setTitle("[7024] Information Page");
         }
     }
 

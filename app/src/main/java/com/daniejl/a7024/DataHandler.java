@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class DataHandler extends MainActivity {
-    public static int LAST_ID = 0;         //increment IDs for created weeks
-    public static int ACTIVE_ID;           //the ID of the week currently opened
-    public static double BASE_PAY = 18.5;  //the user's base pay
-    public static boolean EXCLUDE_ERRORS = true;
+    public static int LAST_ID = 0;                   //increment IDs for created weeks
+    public static int ACTIVE_ID;                     //the ID of the week currently opened
+    public static double BASE_PAY = 18.5;            //the user's base pay
+    public static boolean EXCLUDE_ERRORS = true;     //exclude weeks with errors from the stat page
 
     public static int INCENTIVE_MIN = 100;
     public static int INCENTIVE_MAX = 130;

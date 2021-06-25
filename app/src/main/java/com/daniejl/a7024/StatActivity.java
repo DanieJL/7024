@@ -17,7 +17,7 @@ public class StatActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024] Statistics");
+            actionBar.setTitle("[7024] Stats Page");
         }
     }
 
@@ -92,7 +92,8 @@ public class StatActivity extends AppCompatActivity {
                     "<br>" +
                     "<br>Total Incentive Pay: $" + DataHandler.df.format(totalInc) +
                     "<br>Total Actual Time: " + Week.getDecimalAsTime(totalAT) +
-                    "<br>Total Standard Time: " + Week.getDecimalAsTime(totalST);
+                    "<br>Total Standard Time: " + Week.getDecimalAsTime(totalST) +
+                    "<br><br><small>(stats page is a WIP)</small>";
 
             dataBox.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
         } else {

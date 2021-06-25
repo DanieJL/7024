@@ -49,7 +49,10 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/customborder"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
                     <LinearLayout
                         android:id="@+id/inputGroup"
@@ -63,6 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="@string/base_pay"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="#D6D6D6" />
@@ -85,6 +89,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="@string/incentive_cap"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="#D6D6D6" />
@@ -105,11 +110,11 @@
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/excludeSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
                         android:checked="true"
+                        android:singleLine="true"
                         android:text="@string/exclude_weeks_with_errors_from_statistics_page"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#D6D6D6" />
@@ -144,6 +149,11 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/customborder"
                     android:gravity="start"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
@@ -153,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,6 +183,11 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/customborder"
                     android:gravity="center_horizontal|center_vertical"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
