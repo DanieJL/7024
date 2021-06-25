@@ -29,7 +29,7 @@ import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] greetings = {"Welcome!", "What's up?", "Yo yo yo!", "Hi friend!", "Howdy partner!", "What's new?", "G'day mate!", "Hi there!", "Hello!", "Sup!?", "Hiya pal!", "Ahoy matey!", "Goodmorrow!",
+    String[] greetings = {"Welcome!", "What's up?", "Yo yo yo!", "Hi friend!", "Howdy partner!", "What's new?", "G'day mate!", "Hi there!", "Hello!", "Hiya pal!", "Ahoy matey!", "Goodmorrow!",
     "What's crackin'?", "‘Ello, gov’nor!", "Aloha!", "Greetings!", "Whazzzzup!?", "Bonjour!"};
 
     @Override

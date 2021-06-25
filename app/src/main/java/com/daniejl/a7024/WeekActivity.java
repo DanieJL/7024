@@ -116,7 +116,7 @@ public class WeekActivity extends AppCompatActivity {
             String msg = dayText + " standard time: " + atTemp;
             Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 1500);
             View mView = mySnackbar.getView();
-            TextView sbTextView = (TextView) mView.findViewById(com.google.android.material.R.id.snackbar_text);
+            TextView sbTextView = mView.findViewById(com.google.android.material.R.id.snackbar_text);
             sbTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             sbTextView.setBackgroundColor(Color.DKGRAY);
             mySnackbar.show();
