@@ -89,6 +89,7 @@ public class Week {
         return 0;
     }
 
+<<<<<<< HEAD
     public String getWeekActualTime(){
         double actHrs = 0;
         for (int i = 0; i < 7; i++) {
@@ -109,6 +110,8 @@ public class Week {
         return getDecimalAsTime(stdHrs);
     }
 
+=======
+>>>>>>> master
     //used to verify input is valid
     public static boolean isValidInput(String actualTime, String percent) {
         boolean result = false;
