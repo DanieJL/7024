@@ -80,7 +80,7 @@ public class StatActivity extends AppCompatActivity {
             avgAT = totalAT / totalDays;
             avgPer = (100 / avgAT) * avgST;
 
-            String text = "<br>Total Days: " + totalDays + "<br>" +
+            String text = "<big>Total Days: " + totalDays + "<br>" +
                     "<br>Average Percent: " + DataHandler.df.format(avgPer) + "%" +
                     "<br>Best Percent: " + DataHandler.df.format(bestPer) + "%" +
                     "<br>" +
@@ -92,7 +92,7 @@ public class StatActivity extends AppCompatActivity {
                     "<br>" +
                     "<br>Total Incentive Pay: $" + DataHandler.df.format(totalInc) +
                     "<br>Total Actual Time: " + Week.getDecimalAsTime(totalAT) +
-                    "<br>Total Standard Time: " + Week.getDecimalAsTime(totalST) +
+                    "<br>Total Standard Time: " + Week.getDecimalAsTime(totalST) + "</big>" +
                     "<br><br><small>(stats page is a WIP)</small>";
 
             dataBox.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
@@ -100,5 +100,10 @@ public class StatActivity extends AppCompatActivity {
             String text = "You have no entries yet!";
             dataBox.setText(text);
         }
+
+        TextView creditBox = findViewById(R.id.aboutBox);
+        String credit = "<b>7024 app made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
+                "<br>Evan Sipes<br>Stephan Briggs";
+        creditBox.setText(Html.fromHtml(credit, Html.FROM_HTML_MODE_COMPACT));
     }
 }

@@ -29,7 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/infoLayout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +42,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/settings"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -128,9 +130,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/creditLayout"
+                app:layout_constraintBottom_toTopOf="@id/usageLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingLayout">
@@ -139,8 +143,8 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/terms"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/usage"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
@@ -158,10 +162,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/creditLayout"
+                android:id="@+id/usageLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical"
@@ -171,18 +176,18 @@
                 app:layout_constraintTop_toBottomOf="@id/infoLayout">
 
                 <TextView
+                    android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/about"
+                    android:text="@string/terms"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <TextView
                     android:id="@+id/bottomBox"
+                    android:background="@drawable/customborder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/customborder"
-                    android:gravity="center_horizontal|center_vertical"
+                    android:gravity="start"
                     android:padding="10dp"
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,14 +11,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class WeekActivity extends AppCompatActivity {
-    private String title = "Edit Week";
     private static List<EditText> percentEntries;
     private static List<EditText> actualTimeEntries;
     private static List<TextView> dateList;
@@ -56,21 +52,27 @@ public class WeekActivity extends AppCompatActivity {
             add(findViewById(R.id.date6));
             add(findViewById(R.id.date7));
         }};
+
+        for (TextView e : dateList) {
+            String number = e.getTag().toString().replaceAll("[^0-9]", "");
+            e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number) - 1), e.getText().toString()));
+            e.setOnLongClickListener(v -> {
+                showTotalTimes();
+                return true;
+            });
+        }
+
+        Button btn = findViewById(R.id.calculate);
+        btn.setOnClickListener(v -> {
+            calculate();
+            btn.performHapticFeedback(16);
+        });
+
     }
 
     @Override
     protected void onResume() {
         populateWeekPage(DataHandler.ACTIVE_ID);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
-        }
-
-        Button btn = findViewById(R.id.calculate);
-        btn.setOnClickListener(v -> {
-            calculate(DataHandler.ACTIVE_ID);
-            btn.performHapticFeedback(16);
-        });
         super.onResume();
     }
 
@@ -88,26 +90,35 @@ public class WeekActivity extends AppCompatActivity {
         return true;
     }
 
-    private void calculate(int ID) {
+    private void calculate() {
         saveWeekPage(DataHandler.ACTIVE_ID);
         colorForBadInput();
         TextView incentive = findViewById(R.id.incentive);
         TextView average = findViewById(R.id.average);
-        TextView actual = findViewById(R.id.actual);
-        TextView standard = findViewById(R.id.standard);
         for (Week w : DataHandler.WEEK_LIST) {
-            if (ID == w.getID()) {
-                String avg = "Percent: " + DataHandler.df.format(w.getWeekPerformance()) + "%";
-                average.setText(avg);
-                String inc = "Incentive: $" + DataHandler.df.format(w.getWeekIncentive());
+            if (DataHandler.ACTIVE_ID == w.getID()) {
+                String avg = "<b>Performance: " + DataHandler.df.format(w.getWeekPerformance()) + "%</b>";
+                average.setText(Html.fromHtml(avg, Html.FROM_HTML_MODE_COMPACT));
+                String inc = "<b>Incentive Pay: $" + DataHandler.df.format(w.getWeekIncentive()) + "</b>";
                 if(w.isError()){
-                    inc = "<s>Incentive: $" + DataHandler.df.format(w.getWeekIncentive()) + "</s>";
+                    inc = "<b><s>Incentive Pay:</s> $" + DataHandler.df.format(w.getWeekIncentive()) + "</b>";
                 }
                 incentive.setText(Html.fromHtml(inc, Html.FROM_HTML_MODE_COMPACT));
-                String act = "Actual: " + w.getWeekActualTime();
-                actual.setText(act);
-                String stnd = "Standard: " + w.getWeekStandardTime();
-                standard.setText(stnd);
+                break;
+            }
+        }
+    }
+
+    private void showTotalTimes(){
+        calculate();
+        for (Week w : DataHandler.WEEK_LIST) {
+            if (DataHandler.ACTIVE_ID == w.getID()) {
+                TextView line1 = findViewById(R.id.average);
+                TextView line2 = findViewById(R.id.incentive);
+                String msg1 = "Actual time: " + w.getWeekActualTime();
+                String msg2 = "Standard time: " + w.getWeekStandardTime();
+                line1.setText(msg1);
+                line2.setText(msg2);
                 break;
             }
         }
@@ -117,19 +128,18 @@ public class WeekActivity extends AppCompatActivity {
     private void showDayStandard(int day, String dayText) {
         String atTemp = actualTimeEntries.get(day).getText().toString();
         String perTemp = percentEntries.get(day).getText().toString();
+        calculate();
 
         if (Week.isValidInput(atTemp, perTemp)) {
             double per = Double.parseDouble(perTemp) / 100;
             double at = Week.getTimeAsDecimal(atTemp);
             atTemp = Week.getDecimalAsTime((per * at));
 
-            String msg = dayText + " standard time: " + atTemp;
-            Snackbar mySnackbar = Snackbar.make(this, findViewById(R.id.entry), msg, 1500);
-            View mView = mySnackbar.getView();
-            TextView sbTextView = mView.findViewById(com.google.android.material.R.id.snackbar_text);
-            sbTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            sbTextView.setBackgroundColor(Color.DKGRAY);
-            mySnackbar.show();
+            TextView line1 = findViewById(R.id.average);
+            TextView line2 = findViewById(R.id.incentive);
+            String msg2 = "Standard time: " + atTemp;
+            line1.setText(dayText);
+            line2.setText(msg2);
         }
     }
 
@@ -183,10 +193,6 @@ public class WeekActivity extends AppCompatActivity {
 
     //build the week page from stored data for week being looked at
     private void populateWeekPage(int ID) {
-        for (TextView e : dateList) {
-            String number = e.getTag().toString().replaceAll("[^0-9]", "");
-            e.setOnClickListener(v -> showDayStandard((Integer.parseInt(number) - 1), e.getText().toString()));
-        }
         Week w = new Week(new Date());
         for (Week m : DataHandler.WEEK_LIST) {
             if (m.getID() == ID) {
@@ -208,11 +214,15 @@ public class WeekActivity extends AppCompatActivity {
                 String perString = DataHandler.df2.format(pers[i]);
                 perEntry.setText(perString);
             }
-            String dateTitle = " " + DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
+            String dateTitle = DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
             dateBox.setText(dateTitle);
         }
         String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
-        title = "[7024] " + dateR;
-        calculate(w.getID());
+        String title = "[7024] " + dateR;
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
+        calculate();
     }
 }

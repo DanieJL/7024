@@ -19,7 +19,7 @@ public class HelpActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024] Information Page");
+            actionBar.setTitle("[7024] Help Page");
         }
     }
 
@@ -78,7 +78,17 @@ public class HelpActivity extends AppCompatActivity {
         SwitchCompat exclude = findViewById(R.id.excludeSwitch);
         exclude.setChecked(DataHandler.EXCLUDE_ERRORS);
 
-        TextView helpBox = findViewById(R.id.middleBox);
+        TextView usageBox = findViewById(R.id.middleBox);
+        String usage = "<b>Add new week:</b> Tap the green \"+\" button on the main page then select the first day of your work week.<br>" +
+                "<b>Delete a week: </b> Long press on a week from the main page, tap \"Delete\" to delete that week.<br>" +
+                "<b>See daily standard time:</b> To see a specific day's standard time, tap on that day's date label within that week.<br>" +
+                "<b>See total times:</b> To see total standard/actual time for a week, long press any date label within that week.<br>" +
+                "<b>Add/remove an error:</b> Long press on a week from the main page, tap \"Add Error\" to add, repeat to remove.<br>" +
+                "<b>Save data/settings:</b> Data and settings are saved automatically.";
+
+        usageBox.setText(Html.fromHtml(usage, Html.FROM_HTML_MODE_COMPACT));
+
+        TextView helpBox = findViewById(R.id.bottomBox);
         String help = "<b>Base Pay:</b> Hourly pay before any premiums are added on, typically less than total hourly pay.<br>" +
                 "<b>Incentive Pay:</b> Extra hourly pay earned based on weekly performance % and base pay.<br>" +
                 "<b>Incentive Cap:</b> The performance percent where incentive pay maxes out.<br>" +
@@ -87,11 +97,5 @@ public class HelpActivity extends AppCompatActivity {
                 "<b>Performance %:</b> The percentage your standard time is of your actual time.<br>" +
                 "<b>Error:</b> A mispick which causes the loss of incentive pay for the week in which it occurs.";
         helpBox.setText(Html.fromHtml(help, Html.FROM_HTML_MODE_COMPACT));
-
-        TextView creditBox = findViewById(R.id.bottomBox);
-        String credit = "<b>App made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
-                "<br>Evan \"Evan\" Sipes<br>Stephan \"Briggs\" Briggs";
-        creditBox.setText(Html.fromHtml(credit, Html.FROM_HTML_MODE_COMPACT));
-
     }
 }

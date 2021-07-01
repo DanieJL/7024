@@ -14,4 +14,5 @@
     <string name="exclude_weeks_with_errors_from_statistics_page">Exclude error weeks from stats:</string>
     <string name="terms">Terms</string>
     <string name="about">About</string>
+    <string name="usage">Usage</string>
 </resources>
