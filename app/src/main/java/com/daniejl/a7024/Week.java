@@ -50,6 +50,42 @@ public class Week {
         }
     }
 
+    public void setPercentages(double[] percentages) {
+        this.percentages = percentages;
+    }
+
+    public void setActualTimes(String[] actualTimes) {
+        this.actualTimes = actualTimes;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public String[] getActualTimes() {
+        return actualTimes;
+    }
+
+    public double[] getPercentages() {
+        return percentages;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
     //calculate the incentive for the week
     public double getWeekIncentive() {
         double extraPercent = getWeekPerformance() - DataHandler.INCENTIVE_MIN;
@@ -166,41 +202,5 @@ public class Week {
             minsString = "0" + minsString;
         }
         return (hrsString + ":" + minsString);
-    }
-
-    public void setPercentages(double[] percentages) {
-        this.percentages = percentages;
-    }
-
-    public void setActualTimes(String[] actualTimes) {
-        this.actualTimes = actualTimes;
-    }
-
-    public boolean isError() {
-        return error;
-    }
-
-    public void setError(boolean error) {
-        this.error = error;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public String[] getActualTimes() {
-        return actualTimes;
-    }
-
-    public double[] getPercentages() {
-        return percentages;
-    }
-
-    public int getID() {
-        return ID;
     }
 }

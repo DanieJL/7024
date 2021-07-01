@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -14,10 +15,13 @@ import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -123,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Delete", (dialog, which) -> {
                     DataHandler.WEEK_LIST.remove(w);
                     DataHandler.saveAllData();
+                    DataHandler.RECENT_WEEK_DELETE = w;
                     createMainButtons();
+                    deleteUndoMsg();
                 });
 
                 if (w.isError()) {
@@ -153,6 +159,27 @@ public class MainActivity extends AppCompatActivity {
             addWeekBtn.performHapticFeedback(12);
         });
     }
+
+    //create a delete confirmation + undo button
+    private void deleteUndoMsg(){
+        String msg = "WEEK " + DataHandler.MDFormat.format(DataHandler.RECENT_WEEK_DELETE.getStartDate())+ "-" + DataHandler.MDYYYYFormat.format(DataHandler.RECENT_WEEK_DELETE.getEndDate()) + " DELETED";
+        Snackbar undoSnackbar = Snackbar
+                .make(findViewById(R.id.newweek), msg, 9000)
+                .setAction("UNDO", view -> {
+                    if(DataHandler.RECENT_WEEK_DELETE!=null) {
+                        DataHandler.WEEK_LIST.add(DataHandler.RECENT_WEEK_DELETE);
+                        DataHandler.RECENT_WEEK_DELETE = null;
+                        DataHandler.saveAllData();
+                        createMainButtons();
+                    }
+                });
+        View mView = undoSnackbar.getView();
+        TextView mTextView = (TextView) mView.findViewById(com.google.android.material.R.id.snackbar_text);
+        mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        undoSnackbar.setActionTextColor(Color.parseColor("#89b2f4"));
+        undoSnackbar.show();
+    }
+
 
     //bring up the date selector to create a new week
     private void createNewWeek() {

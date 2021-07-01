@@ -115,10 +115,10 @@ public class WeekActivity extends AppCompatActivity {
             if (DataHandler.ACTIVE_ID == w.getID()) {
                 TextView line1 = findViewById(R.id.average);
                 TextView line2 = findViewById(R.id.incentive);
-                String msg1 = "Actual time: " + w.getWeekActualTime();
-                String msg2 = "Standard time: " + w.getWeekStandardTime();
-                line1.setText(msg1);
-                line2.setText(msg2);
+                String msg1 = "<b>Actual time: " + w.getWeekActualTime() + "</b>";
+                String msg2 = "<b>Standard time: " + w.getWeekStandardTime() + "</b>";
+                line1.setText(Html.fromHtml(msg1, Html.FROM_HTML_MODE_COMPACT));
+                line2.setText(Html.fromHtml(msg2, Html.FROM_HTML_MODE_COMPACT));
                 break;
             }
         }
@@ -135,10 +135,18 @@ public class WeekActivity extends AppCompatActivity {
             double at = Week.getTimeAsDecimal(atTemp);
             atTemp = Week.getDecimalAsTime((per * at));
 
+            String dayText2 = dayText;
+            for(Week w : DataHandler.WEEK_LIST){
+                if(w.getID() == DataHandler.ACTIVE_ID){
+                    dayText2 = "<u>" + DataHandler.EEEEEMDYYYYFormat.format(new Date(w.getStartDate().getTime() + (day * 24 * 60 * 60 * 1000))) + "</u>";
+                    break;
+                }
+            }
+
             TextView line1 = findViewById(R.id.average);
             TextView line2 = findViewById(R.id.incentive);
-            String msg2 = "Standard time: " + atTemp;
-            line1.setText(dayText);
+            String msg2 = "Standard Time: " + atTemp;
+            line1.setText(Html.fromHtml(dayText2, Html.FROM_HTML_MODE_COMPACT));
             line2.setText(msg2);
         }
     }

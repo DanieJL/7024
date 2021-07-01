@@ -22,6 +22,7 @@ public class DataHandler extends MainActivity {
 
     public static int INCENTIVE_MIN = 100;
     public static int INCENTIVE_MAX = 130;
+    public static Week RECENT_WEEK_DELETE;
 
     public static List<Week> WEEK_LIST = new ArrayList<>();
     public static SharedPreferences SAVE_FILE;
@@ -33,6 +34,7 @@ public class DataHandler extends MainActivity {
     public static final SimpleDateFormat MDFormat = new SimpleDateFormat("M/d", LOCALE);
     public static final SimpleDateFormat MDYYYYFormat = new SimpleDateFormat("M/d/yyyy", LOCALE);
     public static final SimpleDateFormat EEEMDFormat = new SimpleDateFormat("EEE, M/d", LOCALE);
+    public static final SimpleDateFormat EEEEEMDYYYYFormat = new SimpleDateFormat("EEEE, M/d/yyyy", LOCALE);
 
     public static void saveAllData() {
         JSONArray weeksJSON = new JSONArray();

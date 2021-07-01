@@ -100,10 +100,5 @@ public class StatActivity extends AppCompatActivity {
             String text = "You have no entries yet!";
             dataBox.setText(text);
         }
-
-        TextView creditBox = findViewById(R.id.aboutBox);
-        String credit = "<b>7024 app made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
-                "<br>Evan Sipes<br>Stephan Briggs";
-        creditBox.setText(Html.fromHtml(credit, Html.FROM_HTML_MODE_COMPACT));
     }
 }

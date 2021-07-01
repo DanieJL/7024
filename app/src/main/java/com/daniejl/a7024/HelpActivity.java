@@ -19,7 +19,7 @@ public class HelpActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("[7024] Help Page");
+            actionBar.setTitle("[7024] Info Page");
         }
     }
 
@@ -84,7 +84,9 @@ public class HelpActivity extends AppCompatActivity {
                 "<b>See daily standard time:</b> To see a specific day's standard time, tap on that day's date label within that week.<br>" +
                 "<b>See total times:</b> To see total standard/actual time for a week, long press any date label within that week.<br>" +
                 "<b>Add/remove an error:</b> Long press on a week from the main page, tap \"Add Error\" to add, repeat to remove.<br>" +
-                "<b>Save data/settings:</b> Data and settings are saved automatically.";
+                "<b>Save data/settings:</b> Data and settings are saved automatically."/*<br>" +
+                "<b>Why actual time input?</b> This allows you to put in a guesstimated actual time for your final day to test different percentages" +
+                " with to see how high/low you need to perform to obtain the average you want."*/;
 
         usageBox.setText(Html.fromHtml(usage, Html.FROM_HTML_MODE_COMPACT));
 
@@ -97,5 +99,10 @@ public class HelpActivity extends AppCompatActivity {
                 "<b>Performance %:</b> The percentage your standard time is of your actual time.<br>" +
                 "<b>Error:</b> A mispick which causes the loss of incentive pay for the week in which it occurs.";
         helpBox.setText(Html.fromHtml(help, Html.FROM_HTML_MODE_COMPACT));
+
+        TextView creditBox = findViewById(R.id.aboutBox);
+        String credit = "<b>App made by Daniel Johnson</b><br><br><u>Special thanks to:</u>" +
+                "<br>Evan Sipes<br>Stephan Briggs";
+        creditBox.setText(Html.fromHtml(credit, Html.FROM_HTML_MODE_COMPACT));
     }
 }
