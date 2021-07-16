@@ -105,7 +105,12 @@ public class MainActivity extends AppCompatActivity {
             }
             Button myButton = new Button(this);
             myButton.setText(title);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((displayMetrics.widthPixels - 20), 200);
+
+            int buttonHeight = displayMetrics.heightPixels/10;
+            if(buttonHeight < 90){
+                buttonHeight = 90;
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((displayMetrics.widthPixels - 20), buttonHeight);
             lp.gravity = Gravity.CENTER_HORIZONTAL;
             myButton.setHapticFeedbackEnabled(true);
             myButton.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
@@ -193,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.style.Theme_DeviceDefault_Dialog_MinWidth,
                 DataHandler.mDateSetListener,
                 year, month, day);
-        dialog.setMessage("First day of new week:");
+        dialog.setMessage("First day of new week:"); //THIS MAY CUT OFF THE ENTER BUTTON ON SMALLER SCREENS
         dialog.show();
     }
 

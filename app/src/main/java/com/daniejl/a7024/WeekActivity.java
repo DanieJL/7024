@@ -115,8 +115,8 @@ public class WeekActivity extends AppCompatActivity {
             if (DataHandler.ACTIVE_ID == w.getID()) {
                 TextView line1 = findViewById(R.id.average);
                 TextView line2 = findViewById(R.id.incentive);
-                String msg1 = "<b>Actual time: " + w.getWeekActualTime() + "</b>";
-                String msg2 = "<b>Standard time: " + w.getWeekStandardTime() + "</b>";
+                String msg1 = "<b>Total Actual Time: " + w.getWeekActualTime() + "</b>";
+                String msg2 = "<b>Total Standard Time: " + w.getWeekStandardTime() + "</b>";
                 line1.setText(Html.fromHtml(msg1, Html.FROM_HTML_MODE_COMPACT));
                 line2.setText(Html.fromHtml(msg2, Html.FROM_HTML_MODE_COMPACT));
                 break;
@@ -128,9 +128,9 @@ public class WeekActivity extends AppCompatActivity {
     private void showDayStandard(int day, String dayText) {
         String atTemp = actualTimeEntries.get(day).getText().toString();
         String perTemp = percentEntries.get(day).getText().toString();
-        calculate();
 
         if (Week.isValidInput(atTemp, perTemp)) {
+            calculate();
             double per = Double.parseDouble(perTemp) / 100;
             double at = Week.getTimeAsDecimal(atTemp);
             atTemp = Week.getDecimalAsTime((per * at));
@@ -175,6 +175,14 @@ public class WeekActivity extends AppCompatActivity {
             String atEntry = actualTimeEntries.get(i).getText().toString();
             String perEntry = percentEntries.get(i).getText().toString();
             if (atEntry.length() > 0) {
+                if(atEntry.length() == 5){
+                    int start = 0;
+                    if(atEntry.charAt(0) == '0'){
+                        start = 1;
+                    }
+                    atEntry = atEntry.substring(start,2) + ':' + atEntry.substring(3); //turns 3rd char of 5 length string into a ':'
+                    actualTimeEntries.get(i).setText(atEntry);
+                }
                 ats[i] = atEntry;
             } else {
                 ats[i] = null;
@@ -201,36 +209,34 @@ public class WeekActivity extends AppCompatActivity {
 
     //build the week page from stored data for week being looked at
     private void populateWeekPage(int ID) {
-        Week w = new Week(new Date());
-        for (Week m : DataHandler.WEEK_LIST) {
-            if (m.getID() == ID) {
-                w = m;
+        for (Week w : DataHandler.WEEK_LIST) {
+            if (w.getID() == ID) {
+                String[] ats = w.getActualTimes();
+                double[] pers = w.getPercentages();
+
+                for (int i = 0; i < 7; i++) {
+                    EditText atEntry = actualTimeEntries.get(i);
+                    EditText perEntry = percentEntries.get(i);
+                    TextView dateBox = dateList.get(i);
+                    if (ats[i] != null) {
+                        atEntry.setText(ats[i]);
+                    }
+                    if (pers[i] > 0) {
+                        String perString = DataHandler.df2.format(pers[i]);
+                        perEntry.setText(perString);
+                    }
+                    String dateTitle = DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
+                    dateBox.setText(dateTitle);
+                }
+                String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
+                String title = "[7024] " + dateR;
+                ActionBar actionBar = getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setTitle(title);
+                }
+                calculate();
                 break;
             }
         }
-        String[] ats = w.getActualTimes();
-        double[] pers = w.getPercentages();
-
-        for (int i = 0; i < 7; i++) {
-            EditText atEntry = actualTimeEntries.get(i);
-            EditText perEntry = percentEntries.get(i);
-            TextView dateBox = dateList.get(i);
-            if (ats[i] != null) {
-                atEntry.setText(ats[i]);
-            }
-            if (pers[i] > 0) {
-                String perString = DataHandler.df2.format(pers[i]);
-                perEntry.setText(perString);
-            }
-            String dateTitle = DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
-            dateBox.setText(dateTitle);
-        }
-        String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
-        String title = "[7024] " + dateR;
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
-        }
-        calculate();
     }
 }
