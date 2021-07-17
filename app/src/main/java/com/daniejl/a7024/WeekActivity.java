@@ -2,7 +2,9 @@ package com.daniejl.a7024;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,7 +102,7 @@ public class WeekActivity extends AppCompatActivity {
                 String avg = "<b>Performance: " + DataHandler.df.format(w.getWeekPerformance()) + "%</b>";
                 average.setText(Html.fromHtml(avg, Html.FROM_HTML_MODE_COMPACT));
                 String inc = "<b>Incentive Pay: $" + DataHandler.df.format(w.getWeekIncentive()) + "</b>";
-                if(w.isError()){
+                if (w.isError()) {
                     inc = "<b><s>Incentive Pay:</s> $" + DataHandler.df.format(w.getWeekIncentive()) + "</b>";
                 }
                 incentive.setText(Html.fromHtml(inc, Html.FROM_HTML_MODE_COMPACT));
@@ -109,14 +111,14 @@ public class WeekActivity extends AppCompatActivity {
         }
     }
 
-    private void showTotalTimes(){
+    private void showTotalTimes() {
         calculate();
         for (Week w : DataHandler.WEEK_LIST) {
             if (DataHandler.ACTIVE_ID == w.getID()) {
                 TextView line1 = findViewById(R.id.average);
                 TextView line2 = findViewById(R.id.incentive);
-                String msg1 = "<b>Total Actual Time: " + w.getWeekActualTime() + "</b>";
-                String msg2 = "<b>Total Standard Time: " + w.getWeekStandardTime() + "</b>";
+                String msg1 = "<b>Actual Time: " + w.getWeekActualTime() + "</b>";
+                String msg2 = "<b>Standard Time: " + w.getWeekStandardTime() + "</b>";
                 line1.setText(Html.fromHtml(msg1, Html.FROM_HTML_MODE_COMPACT));
                 line2.setText(Html.fromHtml(msg2, Html.FROM_HTML_MODE_COMPACT));
                 break;
@@ -132,12 +134,12 @@ public class WeekActivity extends AppCompatActivity {
         if (Week.isValidInput(atTemp, perTemp)) {
             calculate();
             double per = Double.parseDouble(perTemp) / 100;
-            double at = Week.getTimeAsDecimal(atTemp);
-            atTemp = Week.getDecimalAsTime((per * at));
+            double at = Week.getTimeStringAsDecimal(atTemp);
+            atTemp = Week.getDecimalAsTimeString((per * at));
 
             String dayText2 = dayText;
-            for(Week w : DataHandler.WEEK_LIST){
-                if(w.getID() == DataHandler.ACTIVE_ID){
+            for (Week w : DataHandler.WEEK_LIST) {
+                if (w.getID() == DataHandler.ACTIVE_ID) {
                     dayText2 = "<u>" + DataHandler.EEEEEMDYYYYFormat.format(new Date(w.getStartDate().getTime() + (day * 24 * 60 * 60 * 1000))) + "</u>";
                     break;
                 }
@@ -175,14 +177,6 @@ public class WeekActivity extends AppCompatActivity {
             String atEntry = actualTimeEntries.get(i).getText().toString();
             String perEntry = percentEntries.get(i).getText().toString();
             if (atEntry.length() > 0) {
-                if(atEntry.length() == 5){
-                    int start = 0;
-                    if(atEntry.charAt(0) == '0'){
-                        start = 1;
-                    }
-                    atEntry = atEntry.substring(start,2) + ':' + atEntry.substring(3); //turns 3rd char of 5 length string into a ':'
-                    actualTimeEntries.get(i).setText(atEntry);
-                }
                 ats[i] = atEntry;
             } else {
                 ats[i] = null;
@@ -216,7 +210,38 @@ public class WeekActivity extends AppCompatActivity {
 
                 for (int i = 0; i < 7; i++) {
                     EditText atEntry = actualTimeEntries.get(i);
+
+                    atEntry.addTextChangedListener(new TextWatcher() {
+                        int prevL = 0;
+
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            prevL = atEntry.getText().toString().length();
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            int length = editable.length();
+                            if ((prevL < length) && (length == 3)) {
+                                if(!editable.toString().contains(":")){
+                                    editable.insert(2,":");
+                                }
+                            }
+/*                            if(length==5){
+                                if(editable.toString().charAt(0) == '0'){
+                                    editable.delete(0,1);
+                                }
+                            }*/
+                        }
+                    });
+
                     EditText perEntry = percentEntries.get(i);
+
                     TextView dateBox = dateList.get(i);
                     if (ats[i] != null) {
                         atEntry.setText(ats[i]);

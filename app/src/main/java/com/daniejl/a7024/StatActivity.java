@@ -53,7 +53,7 @@ public class StatActivity extends AppCompatActivity {
                 double[] percents = w.getPercentages();
                 for (int i = 0; i < 7; i++) {
                     if (Week.isValidInput(actualTimes[i], percents[i])) {
-                        double actualTime = Week.getTimeAsDecimal(actualTimes[i]);
+                        double actualTime = Week.getTimeStringAsDecimal(actualTimes[i]);
                         double standardTime = actualTime * (percents[i] / 100);
 
                         totalDays += 1;
@@ -84,15 +84,15 @@ public class StatActivity extends AppCompatActivity {
                     "<br>Average Percent: " + DataHandler.df.format(avgPer) + "%" +
                     "<br>Best Percent: " + DataHandler.df.format(bestPer) + "%" +
                     "<br>" +
-                    "<br>Average Actual Time: " + Week.getDecimalAsTime(avgAT) +
-                    "<br>Best Actual Time: " + Week.getDecimalAsTime(bestAT) +
+                    "<br>Average Actual Time: " + Week.getDecimalAsTimeString(avgAT) +
+                    "<br>Best Actual Time: " + Week.getDecimalAsTimeString(bestAT) +
                     "<br>" +
-                    "<br>Average Standard Time: " + Week.getDecimalAsTime(avgST) +
-                    "<br>Best Standard Time: " + Week.getDecimalAsTime(bestST) +
+                    "<br>Average Standard Time: " + Week.getDecimalAsTimeString(avgST) +
+                    "<br>Best Standard Time: " + Week.getDecimalAsTimeString(bestST) +
                     "<br>" +
                     "<br>Total Incentive Pay: $" + DataHandler.df.format(totalInc) +
-                    "<br>Total Actual Time: " + Week.getDecimalAsTime(totalAT) +
-                    "<br>Total Standard Time: " + Week.getDecimalAsTime(totalST) + "</big>" +
+                    "<br>Total Actual Time: " + Week.getDecimalAsTimeString(totalAT) +
+                    "<br>Total Standard Time: " + Week.getDecimalAsTimeString(totalST) + "</big>" +
                     "<br><br><small>(stats page is a WIP)</small>";
 
             dataBox.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));

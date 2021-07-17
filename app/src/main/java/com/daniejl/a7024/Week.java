@@ -99,7 +99,7 @@ public class Week {
             incentivePay = extraPercent * DataHandler.BASE_PAY;
             for (int i = 0; i < 7; i++) {
                 if (isValidInput(this.actualTimes[i], this.percentages[i])) {
-                    totalHrs += getTimeAsDecimal(this.actualTimes[i]);
+                    totalHrs += getTimeStringAsDecimal(this.actualTimes[i]);
                 }
             }
             incentivePay = incentivePay * totalHrs;
@@ -113,7 +113,7 @@ public class Week {
         double weight = 0;
         for (int i = 0; i < 7; i++) {
             if (isValidInput(this.actualTimes[i], this.percentages[i])) {
-                double time = getTimeAsDecimal(this.actualTimes[i]);
+                double time = getTimeStringAsDecimal(this.actualTimes[i]);
                 totalHrs += time;
                 weight += time * this.percentages[i];
             }
@@ -129,29 +129,29 @@ public class Week {
         double actHrs = 0;
         for (int i = 0; i < 7; i++) {
             if (isValidInput(this.actualTimes[i], this.percentages[i])) {
-                actHrs += getTimeAsDecimal(this.actualTimes[i]);
+                actHrs += getTimeStringAsDecimal(this.actualTimes[i]);
             }
         }
-        return getDecimalAsTime(actHrs);
+        return getDecimalAsTimeString(actHrs);
     }
 
     public String getWeekStandardTime(){
         double stdHrs = 0;
         for (int i = 0; i < 7; i++) {
             if (isValidInput(this.actualTimes[i], this.percentages[i])) {
-                stdHrs += getTimeAsDecimal(this.actualTimes[i]) * (this.percentages[i]/100);
+                stdHrs += getTimeStringAsDecimal(this.actualTimes[i]) * (this.percentages[i]/100);
             }
         }
-        return getDecimalAsTime(stdHrs);
+        return getDecimalAsTimeString(stdHrs);
     }
 
     //used to verify input is valid
     public static boolean isValidInput(String actualTime, String percent) {
         boolean result = false;
-        double at = getTimeAsDecimal(actualTime);
+        double at = getTimeStringAsDecimal(actualTime);
         if (percent.matches("([0-9]+.[0-9]+|[0-9]+|.[0-9]+|[0-9]+.)")) {
             double per = Double.parseDouble(percent);
-            if (per > 0 && per < 10000000 && at > 0 && at < 100000) {
+            if (per > 0 && per < 10000 && at > 0 && at < 100000) {
                 result = true;
             }
         }
@@ -161,20 +161,20 @@ public class Week {
     //used to verify input is valid
     public static boolean isValidInput(String actualTime, double per) {
         boolean result = false;
-        double at = getTimeAsDecimal(actualTime);
-        if (per > 0 && per < 10000000 && at > 0 && at < 100000) {
+        double at = getTimeStringAsDecimal(actualTime);
+        if (per > 0 && per < 10000 && at > 0 && at < 100000) {
             result = true;
         }
         return result;
     }
 
     //creates a double from a time string, "10:30" = 10.5, "9:45" = 9.75, etc.
-    public static double getTimeAsDecimal(String s) {
+    public static double getTimeStringAsDecimal(String s) {
         double hours = 0;
         if (s == null) {
             return hours;
         }
-        if (s.matches("([0-9]+:[0-5][0-9]|[0-9]+)")) {
+        if (s.matches("([0-9]{1,2}:[0-5][0-9]|[0-9]{1,2})")) {
             if (s.contains(":")) {
                 hours = Double.parseDouble(s.substring(0, s.lastIndexOf(":")));
                 double minutes = Double.parseDouble(s.substring(s.lastIndexOf(":") + 1));
@@ -187,19 +187,27 @@ public class Week {
     }
 
     //creates a time string from double, 10.5 = "10:30" , 9.75 = "9:45", etc.
-    public static String getDecimalAsTime(double d) {
+    public static String getDecimalAsTimeString(double d) {
         String time = Double.toString(d);
         String hrsString = time.substring(0, time.indexOf("."));
         String minsString = time.substring(time.indexOf("."));
 
         int hrs = Integer.parseInt(hrsString);
-        double mins = Double.parseDouble(minsString) * 60;
+        double mins = Math.round(Double.parseDouble(minsString) * 60);
 
         hrsString = String.valueOf(hrs);
         minsString = String.valueOf(mins);
         minsString = minsString.substring(0, minsString.lastIndexOf("."));
         if (minsString.length() < 2) {
             minsString = "0" + minsString;
+        }
+        if(d<.01){
+            hrsString = "00";
+            minsString = "00";
+        }
+        if(d>9999999){
+            hrsString = "??";
+            minsString = "??";
         }
         return (hrsString + ":" + minsString);
     }
