@@ -131,26 +131,25 @@ public class WeekActivity extends AppCompatActivity {
         String atTemp = actualTimeEntries.get(day).getText().toString();
         String perTemp = percentEntries.get(day).getText().toString();
 
+        String msg = "<b>Standard Time: __:__</b>";
+        for (Week w : DataHandler.WEEK_LIST) {
+            if (w.getID() == DataHandler.ACTIVE_ID) {
+                dayText = "<b>" + DataHandler.EEEEEMDYYYYFormat.format(new Date(w.getStartDate().getTime() + (day * 24 * 60 * 60 * 1000))) + "</b>";
+                break;
+            }
+        }
+
         if (Week.isValidInput(atTemp, perTemp)) {
-            calculate();
             double per = Double.parseDouble(perTemp) / 100;
             double at = Week.getTimeStringAsDecimal(atTemp);
             atTemp = Week.getDecimalAsTimeString((per * at));
-
-            String dayText2 = dayText;
-            for (Week w : DataHandler.WEEK_LIST) {
-                if (w.getID() == DataHandler.ACTIVE_ID) {
-                    dayText2 = "<u>" + DataHandler.EEEEEMDYYYYFormat.format(new Date(w.getStartDate().getTime() + (day * 24 * 60 * 60 * 1000))) + "</u>";
-                    break;
-                }
-            }
-
-            TextView line1 = findViewById(R.id.average);
-            TextView line2 = findViewById(R.id.incentive);
-            String msg2 = "Standard Time: " + atTemp;
-            line1.setText(Html.fromHtml(dayText2, Html.FROM_HTML_MODE_COMPACT));
-            line2.setText(msg2);
+            msg = "<b>Standard Time: " + atTemp + "</b>";
         }
+
+        TextView line1 = findViewById(R.id.average);
+        TextView line2 = findViewById(R.id.incentive);
+        line1.setText(Html.fromHtml(dayText, Html.FROM_HTML_MODE_COMPACT));
+        line2.setText(Html.fromHtml(msg, Html.FROM_HTML_MODE_COMPACT));
     }
 
     //make valid input text color white, invalid input text color gray
@@ -210,7 +209,9 @@ public class WeekActivity extends AppCompatActivity {
 
                 for (int i = 0; i < 7; i++) {
                     EditText atEntry = actualTimeEntries.get(i);
+                    EditText perEntry = percentEntries.get(i);
 
+                    int finalI = i;
                     atEntry.addTextChangedListener(new TextWatcher() {
                         int prevL = 0;
 
@@ -227,20 +228,22 @@ public class WeekActivity extends AppCompatActivity {
                         @Override
                         public void afterTextChanged(Editable editable) {
                             int length = editable.length();
-                            if ((prevL < length) && (length == 3)) {
-                                if(!editable.toString().contains(":")){
-                                    editable.insert(2,":");
+                            String text = editable.toString();
+                            if ((prevL < length)) {
+                                if (length == 3 && !text.contains(":")) {
+                                    editable.insert(1, ":");
+                                }
+                                if (length == 5 && text.contains(":")) {
+                                    if(text.indexOf(":") == 1) {
+                                        editable.delete(1, 2);
+                                        editable.insert(2, ":");
+                                    }
                                 }
                             }
-/*                            if(length==5){
-                                if(editable.toString().charAt(0) == '0'){
-                                    editable.delete(0,1);
-                                }
-                            }*/
+                            actualTimeEntries.get(finalI).setTextColor(Color.GRAY);
+                            percentEntries.get(finalI).setTextColor(Color.GRAY);
                         }
                     });
-
-                    EditText perEntry = percentEntries.get(i);
 
                     TextView dateBox = dateList.get(i);
                     if (ats[i] != null) {
@@ -253,6 +256,7 @@ public class WeekActivity extends AppCompatActivity {
                     String dateTitle = DataHandler.EEEMDFormat.format(new Date(w.getStartDate().getTime() + (i * 24 * 60 * 60 * 1000)));
                     dateBox.setText(dateTitle);
                 }
+
                 String dateR = DataHandler.MDYYYYFormat.format(w.getStartDate()) + "-" + DataHandler.MDYYYYFormat.format(w.getEndDate());
                 String title = "[7024] " + dateR;
                 ActionBar actionBar = getSupportActionBar();
