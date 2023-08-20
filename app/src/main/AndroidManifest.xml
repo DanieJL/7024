@@ -13,6 +13,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -23,6 +24,7 @@
 
         <activity
             android:name=".WeekActivity"
+            android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -30,6 +32,7 @@
 
         <activity
             android:name=".HelpActivity"
+            android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -38,6 +41,7 @@
 
         <activity
             android:name=".StatActivity"
+            android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
