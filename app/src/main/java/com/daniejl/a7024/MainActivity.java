@@ -31,10 +31,25 @@ import java.util.Random;
 
 import static android.graphics.Color.rgb;
 
+/*
+    Updating this for this first time in a couple years to stay compliant with Google Play store (target version, etc)...
+    thought I'd leave some notes here to remember a couple of things that could be added/fixed sometime:
+        1. Export a data text file with all data (useful for backing up and seeing all data in one spot)
+        2. Import that data text file (needs to be in specific format, same as exported)
+        3. Add a new field to weekly records called "Incentive Cap" and change the current implementation to be "Default Incentive Cap"
+            a. When a week is created it's Incentive Cap is set to what is set for the Default Incentive Cap in the settings.
+            b. Within a weekly record, it's Incentive Cap can be adjusted (this should be saved/loaded like other week fields)
+            c. Calculations/Stats need to be formulated to use each individual week's incentive cap.
+
+        The reason behind #3 is because the incentive cap can change in the DC, and currently if that happens (which it did) a user can
+        change the incentive cap in the application, but all prior records (that were using the prior cap) will be adjusted to the new cap.
+        This makes the stats page and calculations inaccurate.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     String[] greetings = {"Welcome!", "What's up?", "Yo yo yo!", "Hi friend!", "Howdy partner!", "What's new?", "G'day mate!", "Hi there!", "Hello!", "Hiya pal!", "Ahoy matey!", "Goodmorrow!",
-    "What's crackin'?", "‘Ello, gov’nor!", "Aloha!", "Greetings!", "Whazzzzup!?", "Bonjour!"};
+    "What's crackin'?", "‘Ello, gov’nor!", "Aloha!", "Greetings!", "Whazzzzup!?", "Bonjour!", "EVAN IS COOL"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
